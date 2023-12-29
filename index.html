@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="./assets/css/style.css" rel="stylesheet">
+    <link href="./develop/css/style.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -14,20 +14,20 @@
     <main>
         <div class="sidebar">
             <form>
-                <!-- Genre -->
+                <!-- Event -->
                 <div>
-                    <h2>Genre</h2>
+                    <h2>Event</h2>
                     <select>
-                        <option>Shooter</option>
-                        <option>Strategy</option>
-                        <option>Racing</option>
-                        <option>Sports</option>
-                        <option>Action</option>
+                        <option>Concert</option>
+                        <option>NCAA Womans Basketball</option>
+                        <option>Family</option>
+                        <option>Broadway</option>
+                        <option>Theater</option>
                     </select>
                 </div>
                 <!-- Platform -->
                 <div>
-                    <h2>Platform</h2>
+                    <h2>Venue</h2>
                     <select>
                         <option>PC</option>
                         <option>Browser</option>
@@ -36,8 +36,8 @@
                 </div>
                 <!-- Release date -->
                 <div>
-                    <h2>Release Date</h2>
-                    <input type="date">
+                    <h2>City Name</h2>
+                    <input type="text">
                 </div>
                 <!-- Submit button -->
                 <div>
@@ -48,29 +48,35 @@
         <div class="main-area">
             <div class="game-card">
                 <!-- Thumbnails are 365px wide x 206px tall -->
-                <a href=""><img src="https://placehold.co/365x206" alt=""></a>
+                <a href=""><img class="event-img" src="https://placehold.co/365x206" alt=""></a>
                 <div>
                     <!-- TODO: replace with actual game info -->
-                    <h3>Game Title</h3>
-                    <p>Description: asdfasdasdfsadf</p>
+                    <h3 class="event-title">Game Title</h3>
+                    <p class="event-type">Description: asdfasdasdfsadf</p>
+                    <p class="event-venue">Venue:</p>
+                    <p class="min-price">Minimum Price</p>
                 </div>
             </div>
             <div class="game-card">
                 <!-- Thumbnails are 365px wide x 206px tall -->
-                <a href=""><img src="https://placehold.co/365x206" alt=""></a>
+                <a href=""><img class="event-img" src="https://placehold.co/365x206" alt=""></a>
                 <div>
                     <!-- TODO: replace with actual game info -->
-                    <h3>Game Title</h3>
-                    <p>Description: asdfasdasdfsadf</p>
+                    <h3 class="event-title">Game Title</h3>
+                    <p class="event-type">Description: asdfasdasdfsadf</p>
+                    <p class="event-venue">Venue:</p>
+                    <p class="min-price">Minimum Price</p>
                 </div>
             </div>
             <div class="game-card">
                 <!-- Thumbnails are 365px wide x 206px tall -->
-                <a href=""><img src="https://placehold.co/365x206" alt=""></a>
+                <a href=""><img class="event-img" src="https://placehold.co/365x206" alt=""></a>
                 <div>
                     <!-- TODO: replace with actual game info -->
-                    <h3>Game Title</h3>
-                    <p>Description: asdfasdasdfsadf</p>
+                    <h3 class="event-title">Game Title</h3>
+                    <p class="event-type">Description: asdfasdasdfsadf</p>
+                    <p class="event-venue">Venue:</p>
+                    <p class="min-price">Minimum Price</p>
                 </div>
             </div>
         </div>
@@ -79,5 +85,9 @@
     <footer>
 
     </footer>
+    <!-- Jquery link -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <!-- js link -->
+    <script src="./develop/javascript/script.js"></script>
 </body>
 </html>
