@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- CSS link -->
-    <!-- <link href="./develop/css/style.css" rel="stylesheet"> -->
+    <link href="./develop/css/style.css" rel="stylesheet">
     <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
 <body>
-    <header class="row deep-purple darken-4">
+    <header class="row deep-purple darken-4" id="header">
         <h1 class="white-text">Free Game Vault</h1>
     </header>
 
     <main class="row">
-        <div class="sidebar col s4 deep-purple lighten-3">
+        <div class="sidebar col s4 deep-purple lighten-3" id="sidebar">
             <div class="row">
                 <form class="col s12">
-                    <div class="row">
+                    <div class="row white">
                         <!-- Event type selector -->
                         <div class="input-field col s12">
                             <select>
@@ -32,7 +32,7 @@
                             <label>Event Type</label>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row white">
                         <!-- City name input -->
                         <div class="input-field col s12">
                         <input id="city-name" type="text" class="validate">

@@ -1,57 +1,14 @@
-:root {
-    --primary: blueviolet;
-    --secondary: lightblue;
-}
-
-* {
+/* id needed to override Materialize defaults */
+header#header{
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-header {
-    background-color: var(--primary);
-    color: white;
     padding: 1rem;
 }
 
-main {
-    display: flex;
-    flex-direction: row;
+/* id needed to override Materialize defaults */
+div.sidebar#sidebar{
+    padding: 2rem;
 }
 
-.sidebar, .main-area {
-    margin: 1rem;
-}
-
-.sidebar {
-    background-color: var(--secondary);
-    width: 30%;
-}
-
-form div {
-    margin: 2rem;
-}
-
-.main-area {
-    width: 70%;
-}
-
-.game-card {
-    margin: 2em 0;
-    display: flex;
-    flex-direction: row;
-}
-
-.game-card div {
-    width: 100%;
-}
-
-.game-card h3 {
-    text-align: center;
-}
-
-a img {
-    height: 10em;
-    width: 15em;
+div.game-card{
+    margin: 2rem 1rem;
 }
