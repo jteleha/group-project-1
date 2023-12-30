@@ -17,28 +17,49 @@
                 <!-- Event -->
                 <div>
                     <h2>Event</h2>
-                    <select>
+                    <select id="event-option">
+                        <option></option>
                         <option>Concert</option>
-                        <option>NCAA Womans Basketball</option>
-                        <option>Family</option>
+                        <option>NFL</option>
+                        <option>MLB</option>
+                        <option>NBA</option>
+                        <option>NHL</option>
+                        <option>MLS</option>
+                        <option>Comedy</option>
+                        <option>NCAA Basketball</option>
+                        <option>NCAA Football</option>
+                        <option>Fighting</option>
+                        <option>Golf</option>
                         <option>Broadway</option>
                         <option>Theater</option>
                     </select>
                 </div>
-                <!-- Platform -->
+
+                <!-- Start Date -->
                 <div>
-                    <h2>Venue</h2>
-                    <select>
-                        <option>PC</option>
-                        <option>Browser</option>
-                        <option>All</option>
-                    </select>
+                    <h2>Start Date</h2>
+                    <!-- pattern affects the format when submitted so it returns YYYY-MM-DD for api use -->
+                    <input type="date" id="start-date" pattern="\d{4}-\d{2}-\d{2}">
                 </div>
-                <!-- Release date -->
+
+                <!-- End Date -->
+                <div>
+                    <h2>End Date</h2>
+                    <input type="date" id="end-date" pattern="\d{4}-\d{2}-\d{2}">
+                </div>
+
+                <!-- City -->
                 <div>
                     <h2>City Name</h2>
-                    <input type="text">
+                    <input id="city-name"type="text">
                 </div>
+
+                <!-- State abbreviation (api only works with abbreviations)-->
+                <div>
+                    <h2>State abbreviation</h2>
+                    <input id="state-name"type="text" maxlength="2">
+                </div>
+
                 <!-- Submit button -->
                 <div>
                     <button>Submit</button>
@@ -53,6 +74,7 @@
                     <!-- TODO: replace with actual game info -->
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type">Description: asdfasdasdfsadf</p>
+                    <p class="event-date">The date:</p>
                     <p class="event-venue">Venue:</p>
                     <p class="min-price">Minimum Price</p>
                 </div>
@@ -64,6 +86,7 @@
                     <!-- TODO: replace with actual game info -->
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type">Description: asdfasdasdfsadf</p>
+                    <p class="event-date">The date:</p>
                     <p class="event-venue">Venue:</p>
                     <p class="min-price">Minimum Price</p>
                 </div>
@@ -75,6 +98,7 @@
                     <!-- TODO: replace with actual game info -->
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type">Description: asdfasdasdfsadf</p>
+                    <p class="event-date">The date:</p>
                     <p class="event-venue">Venue:</p>
                     <p class="min-price">Minimum Price</p>
                 </div>
