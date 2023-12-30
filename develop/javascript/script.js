@@ -4,7 +4,7 @@ var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&clie
 // setting elements as variables
 var btn = document.querySelector("button");
 
-var eventCard = $(".game-card");
+var eventCard = $(".event-card");
 var eventImg = $(".event-img");
 var eventTitle = $(".event-title");
 var eventType = $(".event-type");
