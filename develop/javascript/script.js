@@ -21,12 +21,24 @@ btn.addEventListener("click", function(event){
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
     var startDate = $("#start-date").val();
+    console.log(userEvent);
     var endDate = $("#end-date").val();
     var cityName = $("#city-name").val();
     var stateName = $("#state-name").val();
 
+
     // adds to the url if user selected an event
-    if (userEvent !== ""){
+    if (userEvent !== null){
+
+        // needs to get changed just for api use
+        if(userEvent === "NCAA BB"){
+            userEvent = "ncaa_basketball";
+        };
+
+        if(userEvent === "NCAA FB"){
+            userEvent = "ncaa_football";
+        };
+
         url += `&taxonomies.name=${userEvent}`;
     
     };
@@ -36,7 +48,6 @@ btn.addEventListener("click", function(event){
         url += `&datetime_local.gte=${startDate}&datetime_local.lte=${endDate}`;
     };
 
-    // adds to the url if user selected a city
     if(cityName !== ""){
         url += `&venue.city=${cityName}`;
     };
