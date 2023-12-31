@@ -22,12 +22,20 @@
                 <form class="col s12">
                     <div class="row white">
                         <!-- Event type selector -->
-                        <div class="input-field col s12">
-                            <select>
+                        <div class="input-field col s12" >
+                            <select id="event-option">
                                 <option value="" disabled selected>Choose your option</option>
                                 <option>Concert</option>
-                                <option>NCAA Womans Basketball</option>
-                                <option>Family</option>
+                                <option>NFL</option>
+                                <option>MLB</option>
+                                <option>NBA</option>
+                                <option>NHL</option>
+                                <option>MLS</option>
+                                <option>Comedy</option>
+                                <option>PGA</option>
+                                <option>Fighting</option>
+                                <option>NCAA BB</option>
+                                <option>NCAA FB</option>
                                 <option>Broadway</option>
                                 <option>Theater</option>
                             </select>
@@ -35,10 +43,29 @@
                         </div>
                     </div>
                     <div class="row white">
+                        <!-- Start Date picker -->
+                        <input type="text" id="start-date" class="datepicker">
+                        <label>Start Date</label>
+
+                    </div>
+                    <div class="row white">
+                        <!-- End Date picker -->
+                        <input type="text" id="end-date" class="datepicker">
+                        <label>End Date</label>
+
+                    </div>
+                    <div class="row white">
                         <!-- City name input -->
                         <div class="input-field col s12">
                         <input id="city-name" type="text" class="validate">
                         <label for="city-name">City Name</label>
+                        </div>
+                    </div>
+                    <div class="row white">
+                        <!-- State name input -->
+                        <div class="input-field col s12">
+                            <input id="state-name" type="text" data-length="2" class="validate">
+                            <label for="state-name">State abbr</label>
                         </div>
                     </div>
                     <div class="row">
@@ -57,6 +84,7 @@
                 <div class="card-content">
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type"></p>
+                    <p class="event-date"></p>
                     <p class="event-venue"></p>
                     <p class="min-price"></p>
                 </div>
@@ -68,6 +96,7 @@
                 <div class="card-content">
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type"></p>
+                    <p class="event-date"></p>
                     <p class="event-venue"></p>
                     <p class="min-price"></p>
                 </div>
@@ -79,6 +108,7 @@
                 <div class="card-content">
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type"></p>
+                    <p class="event-date"></p>
                     <p class="event-venue"></p>
                     <p class="min-price"></p>
                 </div>
@@ -90,6 +120,7 @@
                 <div class="card-content">
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type"></p>
+                    <p class="event-date"></p>
                     <p class="event-venue"></p>
                     <p class="min-price"></p>
                 </div>
@@ -101,6 +132,7 @@
                 <div class="card-content">
                     <h3 class="event-title">Game Title</h3>
                     <p class="event-type"></p>
+                    <p class="event-date"></p>
                     <p class="event-venue"></p>
                     <p class="min-price"></p>
                 </div>
