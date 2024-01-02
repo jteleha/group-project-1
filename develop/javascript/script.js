@@ -90,7 +90,7 @@ function fetchEvents(url) {
             eventType[i].innerHTML = allEvents[i].type;
 
             // Gets the layout for the date and time through dayjs
-            var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, hh:mm A");
+            var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
             eventDate[i].innerHTML = date;
 
             eventVenue[i].innerHTML = allEvents[i].venue.name;
