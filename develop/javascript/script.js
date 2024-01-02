@@ -7,6 +7,7 @@ var btn = $("#submit-btn");
 var eventCard = $(".event-card");
 var cardImg = $(".card-image")
 var eventImg = $(".event-img");
+var cardText = $(".card-content");
 var eventTitle = $(".event-title");
 var eventType = $(".event-type");
 var eventDate = $(".event-date");
@@ -87,14 +88,32 @@ function fetchEvents(url) {
             // Adds the text for each section
             eventTitle[i].innerHTML = allEvents[i].short_title; 
             eventType[i].innerHTML = allEvents[i].type;
-            eventDate[i].innerHTML = allEvents[i].datetime_local; 
+
+            // Gets the layout for the date and time through dayjs
+            var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, hh:mm A");
+            eventDate[i].innerHTML = date;
+
             eventVenue[i].innerHTML = allEvents[i].venue.name;
             minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
 
             
+
             // Checks the event type and applies the photo that goes with that event
-            $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')", "width": "100%", "height": "100%", "display": "block", "background-repeat": "no-repeat", "background-size": "100% 100%", "background-position": "center center"});
+            $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')", 
+            // Applies the css for the image
+            "width": "100%", 
+            "height": "100%", 
+            "display": "block", 
+            "background-repeat": "no-repeat", 
+            "background-size": "100% 100%", 
+            "background-position": "center center"});
+
+            // Allows the image to cover the entire card
             $(cardImg[i]).css("padding", "0");
+
+            // css for the title of event
+            $(cardText[i]).css("padding-top", "0");
+
         }    
 
     })

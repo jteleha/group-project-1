@@ -14,3 +14,21 @@ div.event-card{
     
 }
 
+.details {
+    display: flex;
+    flex-direction: row;
+}
+
+.description {
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+}
+
+.ticket-price {
+    display: flex;
+    flex-direction: column;
+    margin: auto auto;
+    border: 1px solid black;
+    padding: 0.5rem;
+}
