@@ -86,8 +86,31 @@ function fetchEvents(url) {
         for(var i = 0; i < eventTitle.length; i++){
             
             // Adds the text for each section
-            eventTitle[i].innerHTML = allEvents[i].short_title; 
-            eventType[i].innerHTML = allEvents[i].type;
+            eventTitle[i].innerHTML = allEvents[i].short_title;
+            
+            // Capitalite first letter of each word and remove the underscore between space
+            var typeName =  allEvents[i].type;
+
+            if(typeName.includes("_")){
+                splitWords = typeName.split("_");
+                // loops over each words and capitalizes the first letter
+                for (var t = 0; t < splitWords.length; t++) {
+                    splitWords[t] = splitWords[t].charAt(0).toUpperCase() + splitWords[t].slice(1);
+                }
+                //joins the words together
+                typeName = splitWords.join(' ');
+                eventType[i].innerHTML = typeName;
+
+            //if event name is three letters wrong like MLB, NBA, MLS then all letters are capital
+            }else if(typeName.length === 3){
+                typeName = typeName.toUpperCase()
+                eventType[i].innerHTML = typeName;
+            
+            //Everything else only capitalizes the first letter of the first word                
+            }else {
+                typeName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+                eventType[i].innerHTML = typeName;
+            }
 
             // Gets the layout for the date and time through dayjs
             var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
@@ -96,7 +119,6 @@ function fetchEvents(url) {
             eventVenue[i].innerHTML = allEvents[i].venue.name;
             minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
 
-            
 
             // Checks the event type and applies the photo that goes with that event
             $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')", 
