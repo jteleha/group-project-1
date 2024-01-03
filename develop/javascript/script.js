@@ -195,6 +195,20 @@ function getImageLocation(eventType) {
     return imageLocation;
 }
 
+// Function to show recently viewed
+let recentlyViewedEvents = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
+function recentlyViewed() {
+    const recentlyViewedList = document.getElementById('recentlyViewedList');
+    recentlyViewed.innerHTML = '';
+    recentlyViewedEvents.array.forEach(event => {
+        const listItem = document.createElement('li');
+        listItem.textContent = event;
+        recentlyViewedList.appendChild(listItem);
+        
+    });
+}
+
+
 // Initialize the page
 function init(){
     fetchEvents(url);
