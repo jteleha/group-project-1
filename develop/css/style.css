@@ -72,3 +72,12 @@ div.event-card{
     border: 1px solid white;
     border-radius: 10px;
 }
+
+/* Style footer */
+main.row, footer.row {
+    margin: 0;
+}
+
+footer.row {
+    padding-bottom: 2rem;
+}
