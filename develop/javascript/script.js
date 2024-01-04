@@ -5,14 +5,16 @@ var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&clie
 var btn = $("#submit-btn");
 
 var eventCard = $(".event-card");
-var cardImg = $(".card-image")
 var eventImg = $(".event-img");
-var cardText = $(".card-content");
 var eventTitle = $(".event-title");
 var eventType = $(".event-type");
 var eventDate = $(".event-date");
 var eventVenue = $(".event-venue");
 var minPrice = $(".min-price");
+var carouselEl = $(".carousel");
+
+// Store the maximum number of carousel items
+const maxCarouselLength = 5;
 var errorMsg = $("#error-msg");
 
 //var for current day date
@@ -114,88 +116,98 @@ function handleSubmit(event) {
 }
 
 // Fetch the events from the API and display
-function fetchEvents(url) {
-    fetch(url)
+// Return the API data so that subsequent functions may utilize it
+async function fetchEvents(url) {
+    return fetch(url)
     .then(function(response){
         return response.json();
     })
-    .then(function(data){
-        console.log(data)
-        // Stores all events into variable
-        var allEvents = data.events;
-        console.log(allEvents);
+    .then(displayEvents);
+}
 
-        // error for if there isn't any events found
-        if(allEvents.length === 0){
-            errorMsg.text("No results found");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"})
-            $(btn).css("margin-top", "1em")
-            return;
-        }
-        // each elements text will change for the appropriate event
-        for(var i = 0; i < eventTitle.length; i++){
-            
-            // Adds the text for each section
-            eventTitle[i].innerHTML = allEvents[i].short_title;
-            
-            // Capitalite first letter of each word and remove the underscore between space
-            var typeName =  allEvents[i].type;
+// Populate the event cards with event data
+function displayEvents(data) {
+    // Stores all events into variable
+    var allEvents = data.events;
+    console.log(allEvents);
 
-            if(typeName.includes("_")){
-                splitWords = typeName.split("_");
-                // loops over each words and capitalizes the first letter
-                for (var t = 0; t < splitWords.length; t++) {
-                    splitWords[t] = splitWords[t].charAt(0).toUpperCase() + splitWords[t].slice(1);
-                }
-                //joins the words together
-                typeName = splitWords.join(' ');
-                eventType[i].innerHTML = typeName;
+    // error for if there isn't any events found
+    if(allEvents.length === 0){
+        errorMsg.text("No results found");
+        $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"})
+        $(btn).css("margin-top", "1em")
+        return;
+    }
 
-            //if event name is three letters wrong like MLB, NBA, MLS then all letters are capital
-            }else if(typeName.length === 3){
-                typeName = typeName.toUpperCase()
-                eventType[i].innerHTML = typeName;
-            
-            //Everything else only capitalizes the first letter of the first word                
-            }else {
-                typeName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-                eventType[i].innerHTML = typeName;
+    // each elements text will change for the appropriate event
+    for(var i = 0; i < eventTitle.length; i++){
+        
+        // Adds the text for each section
+        eventTitle[i].innerHTML = allEvents[i].short_title;
+        
+        // Capitalite first letter of each word and remove the underscore between space
+        var typeName =  allEvents[i].type;
+
+        if(typeName.includes("_")){
+            splitWords = typeName.split("_");
+            // loops over each words and capitalizes the first letter
+            for (var t = 0; t < splitWords.length; t++) {
+                splitWords[t] = splitWords[t].charAt(0).toUpperCase() + splitWords[t].slice(1);
             }
+            //joins the words together
+            typeName = splitWords.join(' ');
+            eventType[i].innerHTML = typeName;
 
-            // Gets the layout for the date and time through dayjs
-            var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
-            eventDate[i].innerHTML = date;
+        //if event name is three letters wrong like MLB, NBA, MLS then all letters are capital
+        }else if(typeName.length === 3){
+            typeName = typeName.toUpperCase()
+            eventType[i].innerHTML = typeName;
+        
+        //Everything else only capitalizes the first letter of the first word                
+        }else {
+            typeName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+            eventType[i].innerHTML = typeName;
+        }
 
-            eventVenue[i].innerHTML = allEvents[i].venue.name;
+        // Gets the layout for the date and time through dayjs
+        var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
+        eventDate[i].innerHTML = date;
 
-            minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
-            $(minPrice[i]).attr("href", allEvents[i].url);
+        eventVenue[i].innerHTML = allEvents[i].venue.name;
 
-            // Checks the event type and applies the photo that goes with that event
-            $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')", 
-            // Applies the css for the image
-            "width": "100%", 
-            "height": "100%", 
-            "display": "flex", 
-            "background-repeat": "no-repeat", 
-            "background-size": "100% 100%", 
-            "background-position": "center center",
-            "border-radius": "25px 0 0 25px"});
+        minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
+        $(minPrice[i]).attr("href", allEvents[i].url);
 
-            // Allows the image to cover the entire card
-            $(cardImg[i]).css("padding", "0");
+        // Checks the event type and applies the photo that goes with that event
+        $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
+    }    
 
-            // css for the title of event
-            $(cardText[i]).css("padding-top", "0");
+    return data;
+}
 
-        }    
+// Populate the carousel with event data
+function displayCarousel(data) {
+    // Stores all events into variable
+    var allEvents = data.events;
 
-    })
+    // Add events to the carousel up to the max number
+    for (let i = 0; i < maxCarouselLength && i < allEvents.length; i++) {
+        let carouselItem = $("<div>").addClass("carousel-item event-card card");
+        let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(allEvents[i].type)));
+        let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(allEvents[i].short_title);
+        let carouselLink = $("<a>").attr("href", allEvents[i].url).append(carouselHeading);
+        let carouselText = $("<div>").addClass("card-content").append(carouselLink);
+        carouselItem.append(carouselImg, carouselText);
+        carouselEl.append(carouselItem);
+    }
+
+    // Initialize the carousel
+    carouselEl.carousel();
 }
 
 // Get image location based on event type
 function getImageLocation(eventType) {
-    let imageLocation = "/assets/images/";
+    let imageLocation = "./assets/images/";
 
     switch (eventType) {
         case "ncaa_womens_basketball":
@@ -294,6 +306,7 @@ function getImageLocation(eventType) {
 
 // Initialize the page
 function init(){
-    fetchEvents(url);
+    fetchEvents(url)
+    .then(displayCarousel);
 }
 
