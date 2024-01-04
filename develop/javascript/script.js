@@ -31,7 +31,7 @@ function handleSubmit(event) {
     
     // resets url so old inputs don't add onto the new one
     var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
-    $(errorMsg).css("display", "none")
+    $(errorMsg).css("display", "none");
 
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
@@ -113,6 +113,24 @@ function handleSubmit(event) {
     fetchEvents(url);
 }
 
+//Handle the search
+function handleSearch(){
+    //gets value from search
+    searchVal = $("#search").val()
+    if(searchVal.includes(" ")){
+        searchVal = searchVal.split(" ").join("-");
+    }
+    //resets url from previous searches
+    var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+
+    //applies the api argument
+    url += `&performers.slug=${searchVal}`;
+    console.log(url);
+
+    //calls function to display events
+    fetchEvents(url);
+}
+
 // Fetch the events from the API and display
 function fetchEvents(url) {
     fetch(url)
@@ -123,8 +141,8 @@ function fetchEvents(url) {
         console.log(data)
         // Stores all events into variable
         var allEvents = data.events;
-        console.log(allEvents);
-
+        $(errorMsg).css("display", "none")
+        
         // error for if there isn't any events found
         if(allEvents.length === 0){
             errorMsg.text("No results found");
@@ -195,7 +213,7 @@ function fetchEvents(url) {
 
 // Get image location based on event type
 function getImageLocation(eventType) {
-    let imageLocation = "/assets/images/";
+    let imageLocation = "./assets/images/";
 
     switch (eventType) {
         case "ncaa_womens_basketball":

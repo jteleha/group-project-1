@@ -16,6 +16,21 @@
     <header class="row deep-purple darken-4" id="header">
         <!-- TODO: Decide on name -->
         <h1 class="white-text">Event Hunter</h1>
+        <div id="header-search">
+            <!-- Team/performer search -->
+            <p>Search for your favorite Pro Team or Performer</p>
+            <nav  class="blue lighten-3">
+                <div class="nav-wrapper">
+                <form onsubmit="handleSearch()">
+                    <div class="input-field">
+                    <input id="search" type="search">
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                    </div>
+                </form>
+                </div>
+            </nav>
+        </div>    
     </header>
 
     <main class="row" id="main-row">
@@ -195,8 +210,11 @@
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
     crossorigin="anonymous"></script>
+    <!-- jquery ui link -->
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <!-- js link -->
     <script src="./develop/javascript/script.js"></script>
     <script src="./develop/javascript/materialize.js"></script>
+    <script src="./develop/javascript/autoComplete.js"></script>
 </body>
 </html>

@@ -2,6 +2,31 @@
 header#header{
     margin: 0;
     padding: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+#header h1{
+    margin: auto 0 auto 1em;
+}
+
+#header-search{
+    display: flex;
+    flex-direction: column;
+    margin: auto 3em auto auto;
+    width: 35%;
+    vertical-align: auto;
+}
+
+#header-search p {
+    text-align: center;
+    font-size: 18px;
+    color: white;
+}
+
+/* css for autocomplete on search */
+.ui-autocomplete {
+    color: blue;
 }
 
 /* id needed to override Materialize defaults */
