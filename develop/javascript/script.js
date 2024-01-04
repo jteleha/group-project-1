@@ -15,6 +15,10 @@ var carouselEl = $(".carousel");
 
 // Store the maximum number of carousel items
 const maxCarouselLength = 5;
+var errorMsg = $("#error-msg");
+
+//var for current day date
+var today = dayjs().format("YYYY-MM-DD");
 
 btn.on("click", handleSubmit);
 
@@ -29,6 +33,7 @@ function handleSubmit(event) {
     
     // resets url so old inputs don't add onto the new one
     var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+    $(errorMsg).css("display", "none")
 
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
@@ -56,8 +61,39 @@ function handleSubmit(event) {
 
     // adds to the url if the user selected dates
     if (startDate !== "" && endDate !== ""){
+        // error msg if user made the end date before the start date
+        if(startDate > endDate){
+            errorMsg.text("Please Make Sure The End Date Is After The Start Date!");
+            $(errorMsg).css({"display": "block", "color": "red", "text-align": "center", "margin": "0 auto"});
+            $(btn).css("margin-top", "1em");
+            return;
+        }else if(startDate === endDate){
+            // error msg if user made both dates the same day
+            errorMsg.text("Please Make Sure The End Date Is Atleast One Day After The Start Date!");
+            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
+            $(btn).css("margin-top", "1em");
+            return;
+        }
         url += `&datetime_local.gte=${startDate}&datetime_local.lte=${endDate}`;
+
+    // if user only selects a start date and not end date
+    }else if(startDate !== "" && endDate === ""){
+        url += `&datetime_local.gte=${startDate}`
+    
+    // if user only selects an end date    
+    }else if (startDate === "" && endDate !== ""){
+        //error msg if end date is before todays date
+        if(endDate < today){
+            errorMsg.text("Please Make Sure The End Date Is After The Current Date!");
+            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
+            $(btn).css("margin-top", "1em");
+            return;
+        }
+        url += `&datetime_local.lte=${endDate}`
     };
+
+    
+    
 
     // adds to the url if the user selected a city
     if(cityName !== ""){
@@ -66,6 +102,13 @@ function handleSubmit(event) {
 
     // adds to the url if the user selected a state
     if(stateName !== ""){
+        // error mesg if user didn't enter the state abbr correct
+        if(stateName.length !== 2){
+            errorMsg.text("Please Make Sure The State Abbreviation Is The Correct Length!");
+            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto", "margin-top": "-1em", "font-size": "12px", "font-weight": "bold"});
+            $(btn).css("margin-top", "1em");
+            return;
+        }
         url += `&venue.state=${stateName}`;
     };
 
@@ -87,6 +130,14 @@ function displayEvents(data) {
     // Stores all events into variable
     var allEvents = data.events;
     console.log(allEvents);
+
+    // error for if there isn't any events found
+    if(allEvents.length === 0){
+        errorMsg.text("No results found");
+        $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"})
+        $(btn).css("margin-top", "1em")
+        return;
+    }
 
     // each elements text will change for the appropriate event
     for(var i = 0; i < eventTitle.length; i++){
