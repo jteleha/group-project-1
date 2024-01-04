@@ -208,8 +208,23 @@ function recentlyViewed() {
     });
 }
 
+// Function to add event to list
+function addRecentlyViewed(event) {
+    recentlyViewedEvents.unshift(event);
+    const maxEvents = 5;
+    recentlyViewedEvents = recentlyViewedEvents.slice(0, maxEvents);
+    localStorage.getItem('recentlyViewed', JSON.stringify(recentlyViewedEvents));
+    recentlyViewed();
+}
 
+// Function to fetch the events
+function fetchEvents(url) {
+    for (var i = 0; i < eventTitle.length; i++) {
+        addRecentlyViewed(allEvents[i].short_title);
+    }
+}
 // Initialize the page
 function init(){
+    recentlyViewedEvents();
     fetchEvents(url);
 }
