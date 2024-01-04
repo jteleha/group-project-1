@@ -71,14 +71,16 @@ function handleSubmit(event) {
 }
 
 // Fetch the events from the API and display
-function fetchEvents(url) {
-    fetch(url)
+// Return the API data so that subsequent functions may utilize it
+async function fetchEvents(url) {
+    return fetch(url)
     .then(function(response){
         return response.json();
     })
     .then(displayEvents);
 }
 
+// Populate the event cards with event data
 function displayEvents(data) {
     // Stores all events into variable
     var allEvents = data.events;
@@ -143,6 +145,15 @@ function displayEvents(data) {
     }    
 
     return data;
+}
+
+// Populate the carousel with event data
+function displayCarousel(data) {
+    // Stores all events into variable
+    var allEvents = data.events;
+    console.log(allEvents);
+
+    
 }
 
 // Get image location based on event type
@@ -246,6 +257,7 @@ function getImageLocation(eventType) {
 
 // Initialize the page
 function init(){
-    fetchEvents(url);
+    fetchEvents(url)
+    .then(displayCarousel);
 }
 
