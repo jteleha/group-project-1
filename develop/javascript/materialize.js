@@ -1,8 +1,3 @@
-// Initialize the Materialize carousel
-$(document).ready(function(){
-    $('.carousel').carousel();
-});
-
 // Initialize the Materialize select
 $(document).ready(function(){
     $('select').formSelect();
@@ -11,9 +6,11 @@ $(document).ready(function(){
 // Initialize the Materialize date picker
 $(document).ready(function(){
     $('.datepicker').datepicker();
-    $(".datepicker").datepicker({format: "yyyy-mm-dd", autoClose: true});
+    $(".datepicker").datepicker({format: "yyyy-mm-dd", autoClose: true, showClearBtn: true});
   });
 
   $(document).ready(function() {
     $('input#state-name').characterCounter();
   });
+
+  

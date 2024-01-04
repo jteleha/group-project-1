@@ -18,14 +18,14 @@
         <h1 class="white-text">Event Hunter</h1>
         <div id="header-search">
             <!-- Team/performer search -->
-            <p>Search for your favorite Pro Team or Performer</p>
+            <p>Search For Your Favorite Team Or Performer</p>
             <nav  class="blue lighten-3">
                 <div class="nav-wrapper">
-                <form onsubmit="handleSearch()">
+                <form onsubmit="handleSearch(event)">
                     <div class="input-field">
-                    <input id="search" type="search">
+                    <input id="search" type="search" class=autocomplete>
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                    <i class="material-icons">close</i>
+                    <i class="material-icons" id="empty-search">close</i>
                     </div>
                 </form>
                 </div>
@@ -191,15 +191,8 @@
         </div>
     </main>
 
-    <footer class="row">
-        <div class="carousel">
-            <!-- TODO: add actual links, add content dynamically -->
-            <a class="carousel-item" href="#one!"><img src="./assets/Images/baseball.png"></a>
-            <a class="carousel-item" href="#two!"><img src="./assets/Images/comedy.png"></a>
-            <a class="carousel-item" href="#three!"><img src="./assets/Images/concert.png"></a>
-            <a class="carousel-item" href="#four!"><img src="./assets/Images/football.jpg"></a>
-            <a class="carousel-item" href="#five!"><img src="./assets/Images/hockey.png"></a>
-        </div>
+    <footer class="row deep-purple">
+        <div class="carousel"></div>
     </footer>
 
     <!-- Jquery link -->
@@ -210,8 +203,7 @@
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="
     crossorigin="anonymous"></script>
-    <!-- jquery ui link -->
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
     <!-- js link -->
     <script src="./develop/javascript/script.js"></script>
     <script src="./develop/javascript/materialize.js"></script>
