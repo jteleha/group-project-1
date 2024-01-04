@@ -5,9 +5,7 @@ var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&clie
 var btn = $("#submit-btn");
 
 var eventCard = $(".event-card");
-var cardImg = $(".card-image")
 var eventImg = $(".event-img");
-var cardText = $(".card-content");
 var eventTitle = $(".event-title");
 var eventType = $(".event-type");
 var eventDate = $(".event-date");
@@ -126,22 +124,7 @@ function displayEvents(data) {
         $(minPrice[i]).attr("href", allEvents[i].url);
 
         // Checks the event type and applies the photo that goes with that event
-        $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')", 
-        // Applies the css for the image
-        "width": "100%", 
-        "height": "100%", 
-        "display": "flex", 
-        "background-repeat": "no-repeat", 
-        "background-size": "100% 100%", 
-        "background-position": "center center",
-        "border-radius": "25px 0 0 25px"});
-
-        // Allows the image to cover the entire card
-        $(cardImg[i]).css("padding", "0");
-
-        // css for the title of event
-        $(cardText[i]).css("padding-top", "0");
-
+        $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
     }    
 
     return data;
