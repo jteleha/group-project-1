@@ -118,11 +118,11 @@ div.carousel > div.carousel-item {
 }
 
 div.carousel > div.carousel-item > div.card-image > img {
-    height: 21rem;
+    height: 19rem;
     width: 100%;
     border-radius: 25px 25px 0 0;
 }
 
-div.carousel > div.carousel-item > div.card-content > h3 {
-    font-size: 2rem;
+div.carousel > div.carousel-item > div.card-content > a > h3 {
+    font-size: 1.5rem;
 }

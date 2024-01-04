@@ -11,6 +11,10 @@ var eventType = $(".event-type");
 var eventDate = $(".event-date");
 var eventVenue = $(".event-venue");
 var minPrice = $(".min-price");
+var carouselEl = $(".carousel");
+
+// Store the maximum number of carousel items
+const maxCarouselLength = 5;
 
 btn.on("click", handleSubmit);
 
@@ -134,9 +138,20 @@ function displayEvents(data) {
 function displayCarousel(data) {
     // Stores all events into variable
     var allEvents = data.events;
-    console.log(allEvents);
 
-    
+    // Add events to the carousel up to the max number
+    for (let i = 0; i < maxCarouselLength && i < allEvents.length; i++) {
+        let carouselItem = $("<div>").addClass("carousel-item event-card card");
+        let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(allEvents[i].type)));
+        let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(allEvents[i].short_title);
+        let carouselLink = $("<a>").attr("href", allEvents[i].url).append(carouselHeading);
+        let carouselText = $("<div>").addClass("card-content").append(carouselLink);
+        carouselItem.append(carouselImg, carouselText);
+        carouselEl.append(carouselItem);
+    }
+
+    // Initialize the carousel
+    carouselEl.carousel();
 }
 
 // Get image location based on event type
