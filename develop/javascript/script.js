@@ -76,71 +76,73 @@ function fetchEvents(url) {
     .then(function(response){
         return response.json();
     })
-    .then(function(data){
-        console.log(data)
-        // Stores all events into variable
-        var allEvents = data.events;
-        console.log(allEvents);
+    .then(displayEvents);
+}
 
-        // each elements text will change for the appropriate event
-        for(var i = 0; i < eventTitle.length; i++){
-            
-            // Adds the text for each section
-            eventTitle[i].innerHTML = allEvents[i].short_title;
-            
-            // Capitalite first letter of each word and remove the underscore between space
-            var typeName =  allEvents[i].type;
+function displayEvents(data) {
+    // Stores all events into variable
+    var allEvents = data.events;
+    console.log(allEvents);
 
-            if(typeName.includes("_")){
-                splitWords = typeName.split("_");
-                // loops over each words and capitalizes the first letter
-                for (var t = 0; t < splitWords.length; t++) {
-                    splitWords[t] = splitWords[t].charAt(0).toUpperCase() + splitWords[t].slice(1);
-                }
-                //joins the words together
-                typeName = splitWords.join(' ');
-                eventType[i].innerHTML = typeName;
+    // each elements text will change for the appropriate event
+    for(var i = 0; i < eventTitle.length; i++){
+        
+        // Adds the text for each section
+        eventTitle[i].innerHTML = allEvents[i].short_title;
+        
+        // Capitalite first letter of each word and remove the underscore between space
+        var typeName =  allEvents[i].type;
 
-            //if event name is three letters wrong like MLB, NBA, MLS then all letters are capital
-            }else if(typeName.length === 3){
-                typeName = typeName.toUpperCase()
-                eventType[i].innerHTML = typeName;
-            
-            //Everything else only capitalizes the first letter of the first word                
-            }else {
-                typeName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-                eventType[i].innerHTML = typeName;
+        if(typeName.includes("_")){
+            splitWords = typeName.split("_");
+            // loops over each words and capitalizes the first letter
+            for (var t = 0; t < splitWords.length; t++) {
+                splitWords[t] = splitWords[t].charAt(0).toUpperCase() + splitWords[t].slice(1);
             }
+            //joins the words together
+            typeName = splitWords.join(' ');
+            eventType[i].innerHTML = typeName;
 
-            // Gets the layout for the date and time through dayjs
-            var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
-            eventDate[i].innerHTML = date;
+        //if event name is three letters wrong like MLB, NBA, MLS then all letters are capital
+        }else if(typeName.length === 3){
+            typeName = typeName.toUpperCase()
+            eventType[i].innerHTML = typeName;
+        
+        //Everything else only capitalizes the first letter of the first word                
+        }else {
+            typeName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
+            eventType[i].innerHTML = typeName;
+        }
 
-            eventVenue[i].innerHTML = allEvents[i].venue.name;
+        // Gets the layout for the date and time through dayjs
+        var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
+        eventDate[i].innerHTML = date;
 
-            minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
-            $(minPrice[i]).attr("href", allEvents[i].url);
+        eventVenue[i].innerHTML = allEvents[i].venue.name;
 
-            // Checks the event type and applies the photo that goes with that event
-            $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')", 
-            // Applies the css for the image
-            "width": "100%", 
-            "height": "100%", 
-            "display": "flex", 
-            "background-repeat": "no-repeat", 
-            "background-size": "100% 100%", 
-            "background-position": "center center",
-            "border-radius": "25px 0 0 25px"});
+        minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
+        $(minPrice[i]).attr("href", allEvents[i].url);
 
-            // Allows the image to cover the entire card
-            $(cardImg[i]).css("padding", "0");
+        // Checks the event type and applies the photo that goes with that event
+        $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')", 
+        // Applies the css for the image
+        "width": "100%", 
+        "height": "100%", 
+        "display": "flex", 
+        "background-repeat": "no-repeat", 
+        "background-size": "100% 100%", 
+        "background-position": "center center",
+        "border-radius": "25px 0 0 25px"});
 
-            // css for the title of event
-            $(cardText[i]).css("padding-top", "0");
+        // Allows the image to cover the entire card
+        $(cardImg[i]).css("padding", "0");
 
-        }    
+        // css for the title of event
+        $(cardText[i]).css("padding-top", "0");
 
-    })
+    }    
+
+    return data;
 }
 
 // Get image location based on event type
