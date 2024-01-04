@@ -1,9 +1,11 @@
+/* Style header */
 /* id needed to override Materialize defaults */
 header#header{
     margin: 0;
     padding: 1rem;
 }
 
+/* Style sidebar */
 /* id needed to override Materialize defaults */
 div.sidebar#sidebar{
     padding: 2rem;
@@ -21,6 +23,7 @@ div.sidebar#sidebar{
     display: flex;
 }
 
+/* Style main area */
 .main-area {
     display: flex;
     flex-direction: column;
@@ -29,11 +32,33 @@ div.sidebar#sidebar{
     overflow-y: auto;
 }
 
-div.event-card{
+/* Style event cards */
+div.event-card,
+div.carousel-card {
     margin: 2rem 1rem;
     border-radius: 28px;
-    border: 3px solid grey;
-    
+    border: 3px solid grey;   
+}
+
+/* Allows the image to cover the entire card */
+div.event-card > div.card-image {
+    padding: 0;
+}
+
+/* Applies the CSS for the image */
+div.event-card > div.card-image > div.event-img {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    border-radius: 25px 0 0 25px;
+}
+
+/* CSS for the title of event */
+div.event-card > div.card-content {
+    padding-top: 0;
 }
 
 .details {
@@ -71,4 +96,33 @@ div.event-card{
     color: white;
     border: 1px solid white;
     border-radius: 10px;
+}
+
+/* Style footer */
+main.row, footer.row {
+    margin: 0;
+}
+
+footer.row {
+    padding-bottom: 2rem;
+}
+
+/* Style carousel cards */
+div.carousel {
+    height: 35rem;
+}
+
+div.carousel > div.carousel-item {
+    height: 28rem;
+    width: 21rem;
+}
+
+div.carousel > div.carousel-item > div.card-image > img {
+    height: 19rem;
+    width: 100%;
+    border-radius: 25px 25px 0 0;
+}
+
+div.carousel > div.carousel-item > div.card-content > a > h3 {
+    font-size: 1.5rem;
 }
