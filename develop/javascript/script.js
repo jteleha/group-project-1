@@ -25,6 +25,13 @@ $("#empty-search").on("click", emptySearch);
 
 init();
 
+function init() {
+    fetchEvents(url).then(data => {
+        allEvents = data.events;
+        displayCarousel(data);
+    });
+}
+
 // Handle the event of the form being submitted
 function handleSubmit(event) {
 
@@ -42,6 +49,17 @@ function handleSubmit(event) {
     var endDate = $("#end-date").val();
     var cityName = $("#city-name").val();
     var stateName = $("#state-name").val();
+    
+    const eventDetails = {
+        type:userEvent,
+        date: startDate,
+        venue: cityName + ', ' + stateName,
+        title: allEvents[0].short_title,
+        price: allEvents[0].stats.lowest_sg_base_price,
+        url: allEvents[0].url,
+    };
+
+    addRecentlyViewed(eventDetails);
 
 
     // adds to the url if user selected an event
@@ -140,7 +158,12 @@ function handleSearch(event){
     console.log(url);
 
     //calls function to display events
-    fetchEvents(url);
+    fetchEvents(url).then(data => {
+        allEvents = data.events;
+        displayEvents(data);
+        displayCarousel(data);
+        getRecentlyViewedEvents();
+    });
 }
 
 // Fetch the events from the API and display
@@ -347,14 +370,13 @@ function handleMinPriceClick(event) {
     console.log(eventTitle);
     var eventPrice = event.target.textContent;
     console.log(eventPrice);
-    ///getRecentlyViewedEvents();
+    getRecentlyViewedEvents();
 
-    var eventObject = {type:eventType, date:eventDate, venue:eventVenue, title:eventTitle, price:eventPrice};
-    console.log(eventObject);
-    console.log(eventArray);
-    eventArray.push(eventObject);
-    
-    localStorage.setItem('events', JSON.stringify(eventObject));
+    var eventObject = {type: eventType, date: eventDate, venue: eventVenue, title: eventTitle, price: eventPrice};
+    var storedEvents = JSON.parse(localStorage.getItem('events')) || [];
+    storedEvents.push(eventObject);
+    localStorage.setItem('events', JSON.stringify(storedEvents));
+    getRecentlyViewedEvents();
 
 }
 
@@ -364,6 +386,34 @@ function getRecentlyViewedEvents() {
 
 }
 let eventArray = [];
+
+function addRecentlyViewed(eventDetails) {
+    eventArray.unshift(eventDetails);
+    const maxEvents = 5;
+    eventArray = eventArray.slice(0, maxEvents);
+    localStorage.setItem('recentlyViewed', JSON.stringify(eventArray));
+    displayRecentlyViewed();
+}
+
+function displayRecentlyViewed() {
+    const carouselEl = $(".carousel");
+    carouselEl.empty();
+
+    let storedEvents = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
+    eventArray = storedEvents;
+
+    eventArray.forEach(event => {
+        let carouselItem = $("<div>").addClass("carousel-item event-card card");
+        let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(event.type)));
+        let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(event.title);
+        let carouselLink = $("<a>").attr("href", event.url).append(carouselHeading);
+        let carouselText = $("<div>").addClass("card-content").append(carouselLink);
+        carouselItem.append(carouselImg, carouselText);
+        carouselEl.append(carouselItem);
+    });
+
+    carouselEl.carousel();
+}
 
 // Initialize the page
 function init(){
