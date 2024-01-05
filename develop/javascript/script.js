@@ -21,6 +21,7 @@ var errorMsg = $("#error-msg");
 var today = dayjs().format("YYYY-MM-DD");
 
 btn.on("click", handleSubmit);
+$("#empty-search").on("click", emptySearch);
 
 init();
 
@@ -33,7 +34,7 @@ function handleSubmit(event) {
     
     // resets url so old inputs don't add onto the new one
     var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
-    $(errorMsg).css("display", "none")
+    $(errorMsg).css("display", "none");
 
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
@@ -112,6 +113,33 @@ function handleSubmit(event) {
         url += `&venue.state=${stateName}`;
     };
 
+    fetchEvents(url);
+}
+
+//Empty search bar when X is clicked
+function emptySearch(){
+    $("#search").val("");
+}
+
+//Handle the search
+function handleSearch(event){
+    //Comes back different based on if they used auto complete or manuelly submitted
+    if(event !== undefined){
+        event.preventDefault()
+    }
+    //gets value from search
+    searchVal = $("#search").val()
+    if(searchVal.includes(" ")){
+        searchVal = searchVal.split(" ").join("-");
+    }
+    //resets url from previous searches
+    var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+
+    //applies the api argument
+    url += `&performers.slug=${searchVal}`;
+    console.log(url);
+
+    //calls function to display events
     fetchEvents(url);
 }
 
@@ -303,39 +331,42 @@ function getImageLocation(eventType) {
 
     return imageLocation;
 }
-// Function to show recently viewed
-let recentlyViewedEvents = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
-function recentlyViewed() {
-    const recentlyViewedList = document.getElementById('recentlyViewedList');
-    recentlyViewedList.innerHTML = '';
-    recentlyViewedEvents.forEach(event => {
-        const listItem = document.createElement('li');
-        listItem.textContent = event;
-        recentlyViewedList.appendChild(listItem);
-        
-    });
+
+$(minPrice).on('click', handleMinPriceClick);
+
+function handleMinPriceClick(event) {
+    var parentElement = event.target.parentElement.parentElement;
+    console.log(parentElement);
+    var eventType = parentElement.children[0].children[0].textContent;
+    console.log(eventType);
+    var eventDate = parentElement.children[0].children[1].textContent;
+    console.log(eventDate); 
+    var eventVenue = parentElement.children[0].children[2].textContent;
+    console.log(eventVenue);
+    var eventTitle = parentElement.previousElementSibling.textContent;
+    console.log(eventTitle);
+    var eventPrice = event.target.textContent;
+    console.log(eventPrice);
+    ///getRecentlyViewedEvents();
+
+    var eventObject = {type:eventType, date:eventDate, venue:eventVenue, title:eventTitle, price:eventPrice};
+    console.log(eventObject);
+    console.log(eventArray);
+    eventArray.push(eventObject);
+    
+    localStorage.setItem('events', JSON.stringify(eventObject));
+
 }
 
-// Function to add event to list
-function addRecentlyViewed(event) {
-    recentlyViewedEvents.unshift(event);
-    const maxEvents = 5;
-    recentlyViewedEvents = recentlyViewedEvents.slice(0, maxEvents);
-    localStorage.setItem('recentlyViewed', JSON.stringify(recentlyViewedEvents));
-    recentlyViewed();
+function getRecentlyViewedEvents() {
+    var storedEvents = JSON.parse(localStorage.getItem('events'));
+    console.log(storedEvents);  
+
 }
-
-
-// Function to fetch the events
-function fetchRecentlyViewedEvents(url) {
-    for (var i = 0; i < eventTitle.length; i++) {
-        addRecentlyViewed(allEvents[i].short_title);
-    }
-}    
+let eventArray = [];
 
 // Initialize the page
 function init(){
     fetchEvents(url)
     .then(displayCarousel);
 }
-
