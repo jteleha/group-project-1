@@ -21,6 +21,7 @@ var errorMsg = $("#error-msg");
 var today = dayjs().format("YYYY-MM-DD");
 
 btn.on("click", handleSubmit);
+$("#empty-search").on("click", emptySearch);
 
 init();
 
@@ -33,7 +34,7 @@ function handleSubmit(event) {
     
     // resets url so old inputs don't add onto the new one
     var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
-    $(errorMsg).css("display", "none")
+    $(errorMsg).css("display", "none");
 
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
@@ -112,6 +113,33 @@ function handleSubmit(event) {
         url += `&venue.state=${stateName}`;
     };
 
+    fetchEvents(url);
+}
+
+//Empty search bar when X is clicked
+function emptySearch(){
+    $("#search").val("");
+}
+
+//Handle the search
+function handleSearch(event){
+    //Comes back different based on if they used auto complete or manuelly submitted
+    if(event !== undefined){
+        event.preventDefault()
+    }
+    //gets value from search
+    searchVal = $("#search").val()
+    if(searchVal.includes(" ")){
+        searchVal = searchVal.split(" ").join("-");
+    }
+    //resets url from previous searches
+    var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+
+    //applies the api argument
+    url += `&performers.slug=${searchVal}`;
+    console.log(url);
+
+    //calls function to display events
     fetchEvents(url);
 }
 
