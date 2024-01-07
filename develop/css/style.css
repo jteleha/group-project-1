@@ -11,7 +11,7 @@
 /* id needed to override Materialize defaults */
 
 #background {
-    background-image: url(/assets/Images/background-img.jpg);
+    background-image: url("../../assets/Images/background-img.jpg");
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center center;
@@ -27,6 +27,7 @@ header#header{
 #header h1{
     font-weight: 500;
     margin: auto 0 auto 0.5em;
+    font-size: 80px;
     color: white;
     text-shadow: 0px 0px 4px white;
 }
@@ -42,7 +43,7 @@ header#header{
 #header-search p {
     text-align: center;
     font-size: 18px;
-    color: black;
+    color: white;
 }
 
 #search-symbol{
@@ -59,6 +60,15 @@ header#header{
     color: black!important;
 }
 
+#main-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.event-card div .card-img {
+    width: 100%!important;
+    height: 100%!important;
+}
 
 /* Style sidebar */
 /* id needed to override Materialize defaults */
@@ -291,9 +301,15 @@ tr.datepicker-row td.is-today:hover{
     overflow-y: auto;
 }
 
-div .event-card {
-    background-color: rgba(255, 255, 255, 0.85);
-    color: black;
+.event-card {
+    display: flex;
+    flex-direction: row;
+}
+
+div.card-image {
+    min-width: 35%;
+    height: 100%;
+    margin-left: 0;
 }
 
 /* Style event cards */
@@ -323,6 +339,10 @@ div.event-card > div.card-image > div.event-img {
 /* CSS for the title of event */
 div.event-card > div.card-content {
     padding-top: 0;
+}
+
+.card-content{
+    width: 100%;
 }
 
 .details {
@@ -390,4 +410,95 @@ div.carousel > div.carousel-item > div.card-image > img {
 
 div.carousel > div.carousel-item > div.card-content > a > h3 {
     font-size: 1.5rem;
+}
+
+/* tablet screen */
+@media screen and (max-width: 768px)  {
+    #header h1{
+        font-size: 60px;
+    }
+
+    div.sidebar#sidebar{
+        padding-left: 0;
+    
+    }
+
+    #sidebar-inputs{
+        width: 100%;
+    }
+
+    #header-search{
+        margin-right: auto;
+    }
+
+
+}
+
+/* Mobile L */
+@media screen and (max-width: 600px){
+
+    header#header{
+        flex-direction: column;
+    }
+
+    #header h1{
+        text-align: center;
+    }
+
+    #header-search{
+        margin-top: 1.5em;
+        width: 75%;
+    }
+
+    #main-row{
+        flex-direction: column;
+    }
+
+    div.sidebar#sidebar{
+        width: 100%;
+    }
+
+    #main-info{
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        max-height: 40em;
+    }
+
+    div.card-image{
+        min-height: 12em ;
+        width: 100%;
+    }
+
+    div.event-img{
+        border-radius: 25px !important;
+    }
+
+    
+    div.event-card{
+        display: flex;
+        flex-direction: column;
+        min-width: 25rem;
+    }
+
+    .card-content h3{
+        max-height: 5rem;
+        font-size: 25px;
+        font-weight: 600;
+        overflow: hidden;
+    }
+
+    div.description{
+        flex-direction: row;
+        font-size: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 3rem;
+    }
+
+    p.event-type{
+        display: none;
+    }
+
+   
 }

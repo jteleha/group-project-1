@@ -1,9 +1,10 @@
 // variable for url
-var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
 
 // setting elements as variables
 var btn = $("#submit-btn");
 
+var mainArea = $("#main-info");
 var eventCard = $(".event-card");
 var eventImg = $(".event-img");
 var eventTitle = $(".event-title");
@@ -33,7 +34,7 @@ function handleSubmit(event) {
     }
     
     // resets url so old inputs don't add onto the new one
-    var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+    var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
     $(errorMsg).css("display", "none");
 
     // selects the values of the inputs
@@ -55,6 +56,26 @@ function handleSubmit(event) {
         if(userEvent === "NCAA FB"){
             userEvent = "ncaa_football";
         };
+
+        if(userEvent === "Monster Trucks"){
+            userEvent = "monster_truck";
+        }
+
+        if(userEvent === "Auto Racing"){
+            userEvent = "auto_racing";
+        }
+
+        if(userEvent === "Music Festival"){
+            userEvent = "music_festival";
+        }
+
+        if(userEvent === "Broadway"){
+            userEvent = "broadway_tickets_national"
+        }
+
+        if(userEvent === "Horse Racing"){
+            userEvent = "horse_racing";
+        }
 
         url += `&taxonomies.name=${userEvent}`;
     
@@ -133,7 +154,7 @@ function handleSearch(event){
         searchVal = searchVal.split(" ").join("-");
     }
     //resets url from previous searches
-    var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+    var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
 
     //applies the api argument
     url += `&performers.slug=${searchVal}`;
@@ -167,12 +188,54 @@ function displayEvents(data) {
         return;
     }
 
-    // each elements text will change for the appropriate event
-    for(var i = 0; i < eventTitle.length; i++){
-        
-        // Adds the text for each section
-        eventTitle[i].innerHTML = allEvents[i].short_title;
-        
+    $(mainArea).empty();
+
+    // Creates each card and applies all the info
+    for (var i = 0; i < allEvents.length; i++){
+        //Make the card
+        var eventCard = $("<div>");
+        eventCard.addClass("event-card card ");
+
+        $(mainArea).append(eventCard);
+
+        // div that contains the img
+        var imgHolder = $("<div>");
+        imgHolder.addClass("card-image");
+        $(eventCard).append(imgHolder);
+
+        // div that has the image as background
+        var img = $("<div>");
+        img.addClass("event-img");
+
+        // Checks the event type and applies the photo that goes with that event
+        img.css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
+        $(imgHolder).append(img);
+
+        // div containing the event info
+        var cardContent = $("<div>");
+        cardContent.addClass("card-content");
+        $(eventCard).append(cardContent);
+
+        // Event header
+        var eventHeader = $("<h3>");
+        eventHeader.addClass("event-title center-align");
+        eventHeader.text(allEvents[i].short_title);
+        $(cardContent).append(eventHeader);
+
+        // div containing all the details
+        var details = $("<div>");
+        details.addClass("details");
+        $(cardContent).append(details);
+
+        // div containing the type, date and venue
+        var description = $("<div>");
+        description.addClass("description");
+        $(details).append(description);
+
+        // event type
+        var type = $("<p>");
+        type.addClass("event-type");
+
         // Capitalite first letter of each word and remove the underscore between space
         var typeName =  allEvents[i].type;
 
@@ -184,30 +247,47 @@ function displayEvents(data) {
             }
             //joins the words together
             typeName = splitWords.join(' ');
-            eventType[i].innerHTML = typeName;
+            type.text(typeName);
 
         //if event name is three letters wrong like MLB, NBA, MLS then all letters are capital
         }else if(typeName.length === 3){
             typeName = typeName.toUpperCase()
-            eventType[i].innerHTML = typeName;
+            type.text(typeName);
         
         //Everything else only capitalizes the first letter of the first word                
         }else {
             typeName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-            eventType[i].innerHTML = typeName;
+            type.text(typeName);
         }
+        $(description).append(type);
 
-        // Gets the layout for the date and time through dayjs
-        var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
-        eventDate[i].innerHTML = date;
+        // Event date
+        var date = $("<p>");
+        date.addClass("event-date");
+        // Format date and time through dayjs
+        var formatDate = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
 
-        eventVenue[i].innerHTML = allEvents[i].venue.name;
+        date.text(formatDate);
+        $(description).append(date);
 
-        minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
-        $(minPrice[i]).attr("href", allEvents[i].url);
+        // Event venue
+        var venue = $("<p>");
+        venue.addClass("event-venue");
+        venue.text(allEvents[i].venue.name);
+        $(description).append(venue);
 
-        // Checks the event type and applies the photo that goes with that event
-        $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
+        // div containing ticket price
+        var ticketPrice = $("<div>");
+        ticketPrice.addClass("ticket-price");
+        $(details).append(ticketPrice);
+
+        // anchor that contains the link and says the actual price
+        var minPrice = $("<a>");
+        minPrice.addClass("min-price");
+        minPrice.attr({"target": "_blank", "href": allEvents[i].url});
+        minPrice.text("From: $" + allEvents[i].stats.lowest_sg_base_price);
+        $(ticketPrice).append(minPrice);
+
     }    
 
     return data;
