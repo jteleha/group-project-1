@@ -26,10 +26,24 @@ let recentlyViewed = [];
 //var for current day date
 var today = dayjs().format("YYYY-MM-DD");
 
+
+
+// Event listeners and function calls:
 btn.on("click", handleSubmit);
 $("#empty-search").on("click", emptySearch);
+$(minPrice).on('click', handleMinPriceClick);
 
 init();
+
+
+
+// Function definitions:
+// Initialize the page
+function init(){
+    fetchEvents(url);
+    recentlyViewed = getRecentlyViewedEvents();
+    displayCarousel(recentlyViewed);
+}
 
 // Handle the event of the form being submitted
 function handleSubmit(event) {
@@ -49,18 +63,6 @@ function handleSubmit(event) {
     var cityName = $("#city-name").val();
     var stateName = $("#state-name").val();
     
-    // const eventDetails = {
-    //     type:userEvent,
-    //     date: startDate,
-    //     venue: cityName + ', ' + stateName,
-    //     title: allEvents[0].short_title,
-    //     price: allEvents[0].stats.lowest_sg_base_price,
-    //     url: allEvents[0].url,
-    // };
-
-    // addRecentlyViewed(eventDetails);
-
-
     // adds to the url if user selected an event
     if (userEvent !== null){
 
@@ -109,9 +111,6 @@ function handleSubmit(event) {
         }
         url += `&datetime_local.lte=${endDate}`
     };
-
-    
-    
 
     // adds to the url if the user selected a city
     if(cityName !== ""){
@@ -372,30 +371,21 @@ function getImageLocation(eventType) {
     return imageLocation;
 }
 
-$(minPrice).on('click', handleMinPriceClick);
-
+// Handle the event in which an event's price link is clicked
 function handleMinPriceClick(event) {
-    var parentEl = event.target.parentElement.parentElement;
-    // console.log(parentEl);
-    var eventType = parentEl.children[0].children[0].textContent;
-    // console.log(eventType);
-    var eventDate = parentEl.children[0].children[1].textContent;
-    // console.log(eventDate); 
-    var eventVenue = parentEl.children[0].children[2].textContent;
-    // console.log(eventVenue);
-    var eventTitle = parentEl.previousElementSibling.textContent;
-    // console.log(eventTitle);
+    // Get information about the event from the element and store in an object
+    var detailsDiv = event.target.parentElement.parentElement;
+    var eventType = detailsDiv.children[0].children[0].textContent;
+    var eventDate = detailsDiv.children[0].children[1].textContent;
+    var eventVenue = detailsDiv.children[0].children[2].textContent;
+    var eventTitle = detailsDiv.previousElementSibling.textContent;
     var eventPrice = event.target.textContent;
-    // console.log(eventPrice);
     var eventURL = event.target.href;
-    // console.log(eventURL);
-    var eventBackground = event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].style["background-image"];
-    // console.log(eventBackground);
-    getRecentlyViewedEvents();
+    var eventBackground = detailsDiv.parentElement.previousElementSibling.children[0].style["background-image"];
 
     var eventObject = {type: eventType, date: eventDate, venue: eventVenue, title: eventTitle, price: eventPrice, url: eventURL, background: eventBackground};
-    // console.log(eventObject);
 
+    // Check if the event is already in the recently viewed events array
     let isRepeat = false;
     for (let i = 0; i < recentlyViewed.length; i++) {
         if (eventObject.title === recentlyViewed[i].title) {
@@ -403,6 +393,7 @@ function handleMinPriceClick(event) {
         }
     }
 
+    // If it's not, add it to the array then store the updated array and display it in the carousel
     if (!isRepeat) {
         recentlyViewed.unshift(eventObject);
         while (recentlyViewed.length > maxCarouselLength) {
@@ -423,39 +414,4 @@ function getRecentlyViewedEvents() {
 // Store recently viewed events in localStorage
 function storeRecentlyViewedEvents(eventList) {
     localStorage.setItem("recentlyViewed", JSON.stringify(eventList));
-}
-
-// function addRecentlyViewed(eventDetails) {
-//     eventArray.unshift(eventDetails);
-//     const maxEvents = 5;
-//     eventArray = eventArray.slice(0, maxEvents);
-//     localStorage.setItem('recentlyViewed', JSON.stringify(eventArray));
-//     displayRecentlyViewed();
-// }
-
-// function displayRecentlyViewed() {
-//     const carouselEl = $(".carousel");
-//     carouselEl.empty();
-
-//     let storedEvents = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
-//     eventArray = storedEvents;
-
-//     eventArray.forEach(event => {
-//         let carouselItem = $("<div>").addClass("carousel-item event-card card");
-//         let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(event.type)));
-//         let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(event.title);
-//         let carouselLink = $("<a>").attr("href", event.url).append(carouselHeading);
-//         let carouselText = $("<div>").addClass("card-content").append(carouselLink);
-//         carouselItem.append(carouselImg, carouselText);
-//         carouselEl.append(carouselItem);
-//     });
-
-//     carouselEl.carousel();
-// }
-
-// Initialize the page
-function init(){
-    fetchEvents(url);
-    recentlyViewed = getRecentlyViewedEvents();
-    displayCarousel(recentlyViewed);
 }
