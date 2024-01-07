@@ -12,10 +12,16 @@ var eventDate = $(".event-date");
 var eventVenue = $(".event-venue");
 var minPrice = $(".min-price");
 var carouselEl = $(".carousel");
+var errorMsg = $("#error-msg");
+
+// Track whether the carousel is initialized
+let carouselIsInitialized = false;
 
 // Store the maximum number of carousel items
 const maxCarouselLength = 5;
-var errorMsg = $("#error-msg");
+
+// Store data for recently viewed events
+let recentlyViewed = [];
 
 //var for current day date
 var today = dayjs().format("YYYY-MM-DD");
@@ -43,16 +49,16 @@ function handleSubmit(event) {
     var cityName = $("#city-name").val();
     var stateName = $("#state-name").val();
     
-    const eventDetails = {
-        type:userEvent,
-        date: startDate,
-        venue: cityName + ', ' + stateName,
-        title: allEvents[0].short_title,
-        price: allEvents[0].stats.lowest_sg_base_price,
-        url: allEvents[0].url,
-    };
+    // const eventDetails = {
+    //     type:userEvent,
+    //     date: startDate,
+    //     venue: cityName + ', ' + stateName,
+    //     title: allEvents[0].short_title,
+    //     price: allEvents[0].stats.lowest_sg_base_price,
+    //     url: allEvents[0].url,
+    // };
 
-    addRecentlyViewed(eventDetails);
+    // addRecentlyViewed(eventDetails);
 
 
     // adds to the url if user selected an event
@@ -161,8 +167,8 @@ function handleSearch(event){
 
 // Fetch the events from the API and display
 // Return the API data so that subsequent functions may utilize it
-async function fetchEvents(url) {
-    return fetch(url)
+function fetchEvents(url) {
+    fetch(url)
     .then(function(response){
         return response.json();
     })
@@ -230,23 +236,41 @@ function displayEvents(data) {
 }
 
 // Populate the carousel with event data
-function displayCarousel(data) {
-    // Stores all events into variable
-    var allEvents = data.events;
+function displayCarousel(eventList) {
+    // If the carousel is initialize, destroy it
+    if (carouselIsInitialized) {
+        carouselEl.carousel("destroy");
+        carouselIsInitialized = false;
+    }
 
-    // Add events to the carousel up to the max number
-    for (let i = 0; i < maxCarouselLength && i < allEvents.length; i++) {
+    // Remove the existing carousel and replace it with a blank one
+    carouselEl.remove();
+    carouselEl = $("<div>").addClass("carousel");
+    $("footer").append(carouselEl);
+
+    if (eventList.length === 0) {
+        // If there are no recently viewed events, add a default card to the carousel
         let carouselItem = $("<div>").addClass("carousel-item event-card card");
-        let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(allEvents[i].type)));
-        let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(allEvents[i].short_title);
-        let carouselLink = $("<a>").attr("href", allEvents[i].url).append(carouselHeading);
-        let carouselText = $("<div>").addClass("card-content").append(carouselLink);
-        carouselItem.append(carouselImg, carouselText);
+        let carouselHeading = $("<h3>").addClass("carousel-title center-align").text("No recently viewed events");
+        let carouselText = $("<div>").addClass("card-content").append(carouselHeading);
+        carouselItem.append(carouselText);
         carouselEl.append(carouselItem);
+    } else {
+        // Else, add events to the carousel up to the max number
+        for (let i = 0; i < maxCarouselLength && i < eventList.length; i++) {
+            let carouselItem = $("<div>").addClass("carousel-item event-card card");
+            let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(eventList[i].type)));
+            let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(eventList[i].title);
+            let carouselLink = $("<a>").attr("href", eventList[i].url).append(carouselHeading);
+            let carouselText = $("<div>").addClass("card-content").append(carouselLink);
+            carouselItem.append(carouselImg, carouselText);
+            carouselEl.append(carouselItem);
+        }
     }
 
     // Initialize the carousel
     carouselEl.carousel();
+    carouselIsInitialized = true;
 }
 
 // Get image location based on event type
@@ -351,65 +375,87 @@ function getImageLocation(eventType) {
 $(minPrice).on('click', handleMinPriceClick);
 
 function handleMinPriceClick(event) {
-    var parentElement = event.target.parentElement.parentElement;
-    console.log(parentElement);
-    var eventType = parentElement.children[0].children[0].textContent;
-    console.log(eventType);
-    var eventDate = parentElement.children[0].children[1].textContent;
-    console.log(eventDate); 
-    var eventVenue = parentElement.children[0].children[2].textContent;
-    console.log(eventVenue);
-    var eventTitle = parentElement.previousElementSibling.textContent;
-    console.log(eventTitle);
+    var parentEl = event.target.parentElement.parentElement;
+    // console.log(parentEl);
+    var eventType = parentEl.children[0].children[0].textContent;
+    // console.log(eventType);
+    var eventDate = parentEl.children[0].children[1].textContent;
+    // console.log(eventDate); 
+    var eventVenue = parentEl.children[0].children[2].textContent;
+    // console.log(eventVenue);
+    var eventTitle = parentEl.previousElementSibling.textContent;
+    // console.log(eventTitle);
     var eventPrice = event.target.textContent;
-    console.log(eventPrice);
+    // console.log(eventPrice);
+    var eventURL = event.target.href;
+    // console.log(eventURL);
+    var eventBackground = event.target.parentElement.parentElement.parentElement.previousElementSibling.children[0].style["background-image"];
+    // console.log(eventBackground);
     getRecentlyViewedEvents();
 
-    var eventObject = {type: eventType, date: eventDate, venue: eventVenue, title: eventTitle, price: eventPrice};
-    var storedEvents = JSON.parse(localStorage.getItem('events')) || [];
-    storedEvents.push(eventObject);
-    localStorage.setItem('events', JSON.stringify(storedEvents));
-    getRecentlyViewedEvents();
+    var eventObject = {type: eventType, date: eventDate, venue: eventVenue, title: eventTitle, price: eventPrice, url: eventURL, background: eventBackground};
+    // console.log(eventObject);
 
+    let isRepeat = false;
+    for (let i = 0; i < recentlyViewed.length; i++) {
+        if (eventObject.title === recentlyViewed[i].title) {
+            isRepeat = true;
+        }
+    }
+
+    if (!isRepeat) {
+        recentlyViewed.unshift(eventObject);
+        while (recentlyViewed.length > maxCarouselLength) {
+            recentlyViewed.pop();
+        }
+
+        storeRecentlyViewedEvents(recentlyViewed);
+
+        displayCarousel(recentlyViewed);
+    }
 }
 
+// Retrieve recently viewed events from localStorage
 function getRecentlyViewedEvents() {
-    var storedEvents = JSON.parse(localStorage.getItem('events'));
-    console.log(storedEvents);  
-
-}
-let eventArray = [];
-
-function addRecentlyViewed(eventDetails) {
-    eventArray.unshift(eventDetails);
-    const maxEvents = 5;
-    eventArray = eventArray.slice(0, maxEvents);
-    localStorage.setItem('recentlyViewed', JSON.stringify(eventArray));
-    displayRecentlyViewed();
+    return JSON.parse(localStorage.getItem('recentlyViewed')) ?? [];
 }
 
-function displayRecentlyViewed() {
-    const carouselEl = $(".carousel");
-    carouselEl.empty();
-
-    let storedEvents = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
-    eventArray = storedEvents;
-
-    eventArray.forEach(event => {
-        let carouselItem = $("<div>").addClass("carousel-item event-card card");
-        let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(event.type)));
-        let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(event.title);
-        let carouselLink = $("<a>").attr("href", event.url).append(carouselHeading);
-        let carouselText = $("<div>").addClass("card-content").append(carouselLink);
-        carouselItem.append(carouselImg, carouselText);
-        carouselEl.append(carouselItem);
-    });
-
-    carouselEl.carousel();
+// Store recently viewed events in localStorage
+function storeRecentlyViewedEvents(eventList) {
+    localStorage.setItem("recentlyViewed", JSON.stringify(eventList));
 }
+
+// function addRecentlyViewed(eventDetails) {
+//     eventArray.unshift(eventDetails);
+//     const maxEvents = 5;
+//     eventArray = eventArray.slice(0, maxEvents);
+//     localStorage.setItem('recentlyViewed', JSON.stringify(eventArray));
+//     displayRecentlyViewed();
+// }
+
+// function displayRecentlyViewed() {
+//     const carouselEl = $(".carousel");
+//     carouselEl.empty();
+
+//     let storedEvents = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
+//     eventArray = storedEvents;
+
+//     eventArray.forEach(event => {
+//         let carouselItem = $("<div>").addClass("carousel-item event-card card");
+//         let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(event.type)));
+//         let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(event.title);
+//         let carouselLink = $("<a>").attr("href", event.url).append(carouselHeading);
+//         let carouselText = $("<div>").addClass("card-content").append(carouselLink);
+//         carouselItem.append(carouselImg, carouselText);
+//         carouselEl.append(carouselItem);
+//     });
+
+//     carouselEl.carousel();
+// }
 
 // Initialize the page
 function init(){
-    fetchEvents(url)
-    .then(displayCarousel);
+    fetchEvents(url);
+    recentlyViewed = getRecentlyViewedEvents();
+    displayCarousel(recentlyViewed);
 }
