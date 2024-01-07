@@ -25,13 +25,6 @@ $("#empty-search").on("click", emptySearch);
 
 init();
 
-function init() {
-    fetchEvents(url).then(data => {
-        allEvents = data.events;
-        displayCarousel(data);
-    });
-}
-
 // Handle the event of the form being submitted
 function handleSubmit(event) {
 
