@@ -267,7 +267,7 @@ function displayCarousel(eventList) {
     }
 
     // Initialize the carousel
-    carouselEl.carousel();
+    carouselEl.carousel({indicators: true});
     carouselIsInitialized = true;
 }
 
