@@ -151,3 +151,7 @@ div.carousel > div.carousel-item > div.card-image > img {
 div.carousel > div.carousel-item > div.card-content > a > h3 {
     font-size: 1.5rem;
 }
+
+#blank-carousel-item {
+    height: 14rem;
+}

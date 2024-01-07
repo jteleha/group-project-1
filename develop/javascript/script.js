@@ -250,6 +250,7 @@ function displayCarousel(eventList) {
     if (eventList.length === 0) {
         // If there are no recently viewed events, add a default card to the carousel
         let carouselItem = $("<div>").addClass("carousel-item event-card card");
+        carouselItem.attr("id", "blank-carousel-item");
         let carouselHeading = $("<h3>").addClass("carousel-title center-align").text("No recently viewed events");
         let carouselText = $("<div>").addClass("card-content").append(carouselHeading);
         carouselItem.append(carouselText);
