@@ -258,7 +258,7 @@ function displayCarousel(eventList) {
         // Else, add events to the carousel up to the max number
         for (let i = 0; i < maxCarouselLength && i < eventList.length; i++) {
             let carouselItem = $("<div>").addClass("carousel-item event-card card");
-            let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", getImageLocation(eventList[i].type)));
+            let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", eventList[i].background));
             let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(eventList[i].title);
             let carouselLink = $("<a>").attr("href", eventList[i].url).append(carouselHeading);
             let carouselText = $("<div>").addClass("card-content").append(carouselLink);
@@ -381,7 +381,7 @@ function handleMinPriceClick(event) {
     var eventTitle = detailsDiv.previousElementSibling.textContent;
     var eventPrice = event.target.textContent;
     var eventURL = event.target.href;
-    var eventBackground = detailsDiv.parentElement.previousElementSibling.children[0].style["background-image"];
+    var eventBackground = detailsDiv.parentElement.previousElementSibling.children[0].style["background-image"].slice(5, -2);
 
     var eventObject = {type: eventType, date: eventDate, venue: eventVenue, title: eventTitle, price: eventPrice, url: eventURL, background: eventBackground};
 
