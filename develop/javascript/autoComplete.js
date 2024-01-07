@@ -252,7 +252,8 @@ $(document).ready(function(){
       onAutocomplete: function(){
         console.log("worked");
         handleSearch();
-      }
+      },
+
 
     });
 });
