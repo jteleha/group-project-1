@@ -153,7 +153,6 @@ function handleSearch(event){
 
     //applies the api argument
     url += `&performers.slug=${searchVal}`;
-    console.log(url);
 
     //calls function to display events
     fetchEvents(url).then(data => {
@@ -178,7 +177,6 @@ function fetchEvents(url) {
 function displayEvents(data) {
     // Stores all events into variable
     var allEvents = data.events;
-    console.log(allEvents);
 
     // error for if there isn't any events found
     if(allEvents.length === 0){
