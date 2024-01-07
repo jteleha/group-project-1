@@ -134,7 +134,7 @@ footer.row {
 
 /* Style carousel cards */
 div.carousel {
-    height: 35rem;
+    height: 40rem;
 }
 
 div.carousel > div.carousel-item {
@@ -150,4 +150,8 @@ div.carousel > div.carousel-item > div.card-image > img {
 
 div.carousel > div.carousel-item > div.card-content > a > h3 {
     font-size: 1.5rem;
+}
+
+#blank-carousel-item {
+    height: 14rem;
 }
