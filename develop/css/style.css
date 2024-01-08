@@ -6,10 +6,12 @@
     --label-font-weight: 700;
 }
 
+body {
+    background-color: rgb(100,100,100);
+}
 
 /* Style header */
 /* id needed to override Materialize defaults */
-
 #background {
     background-image: url("../../assets/Images/background-img.jpg");
     background-repeat: no-repeat;
@@ -333,7 +335,7 @@ div.event-card > div.card-image > div.event-img {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center center;
-    border-radius: 25px 0 0 25px;
+    border-radius: 24px 0 0 24px;
 }
 
 /* CSS for the title of event */
@@ -341,7 +343,7 @@ div.event-card > div.card-content {
     padding-top: 0;
 }
 
-.card-content{
+.card-content {
     width: 100%;
 }
 
@@ -357,7 +359,7 @@ div.event-card > div.card-content {
     font-size: 20px;
 }
 
-.ticket-price{
+.ticket-price {
     display: flex;
     flex-direction: row;
     width: 50%;
@@ -392,6 +394,14 @@ footer.row {
     padding-bottom: 2rem;
 }
 
+footer > h2 {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin: 2rem 0 0 0;
+    text-shadow: 0px 0px 4px white;
+}
+
 /* Style carousel cards */
 div.carousel {
     height: 40rem;
@@ -400,19 +410,38 @@ div.carousel {
 div.carousel > div.carousel-item {
     height: 28rem;
     width: 21rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+div.carousel > div.carousel-item > div.card-image {
+    height: 19rem;
 }
 
 div.carousel > div.carousel-item > div.card-image > img {
     height: 19rem;
     width: 100%;
-    border-radius: 25px 25px 0 0;
+    border-radius: 24px 24px 0 0;
+}
+
+div.carousel > div.carousel-item > div.card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 div.carousel > div.carousel-item > div.card-content > a > h3 {
     font-size: 1.5rem;
+    margin: 0.5em 0 0 0;
 }
 
-/* tablet screen */
+#blank-carousel-item {
+    height: 14rem;
+}
+
+/* Tablet screen */
 @media screen and (max-width: 768px)  {
     #header h1{
         font-size: 60px;
@@ -430,13 +459,10 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
     #header-search{
         margin-right: auto;
     }
-
-
 }
 
 /* Mobile L */
 @media screen and (max-width: 600px){
-
     header#header{
         flex-direction: column;
     }
@@ -465,14 +491,14 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
         max-height: 40em;
     }
 
-    div.card-image{
-        min-height: 15em ;
+    .main-area > .event-card > div.card-image{
+        min-height: 15em;
         max-height: 15em;
         width: 100%;
     }
 
     div.event-img{
-        border-radius: 25px !important;
+        border-radius: 24px !important;
     }
 
     
@@ -482,7 +508,7 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
         min-width: 25rem;
     }
 
-    .card-content h3{
+    .event-card > .card-content > h3{
         max-height: 5rem;
         min-height: 5rem;
         font-size: 25px;
@@ -506,6 +532,11 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
     .description > p{
         width: 100%;
     }
+
+    footer > h2 {
+        font-size: 2em;
+        margin: 1.5em 0 0 0;
+    }
 }
 
 /* Mobile M */
@@ -518,7 +549,6 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
         max-height: 3.5rem;
         min-height: 3.5rem;
     }
-
 }
 
 /* Mobile S */
@@ -536,8 +566,4 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
     div.description{
         font-size: 14px;
     }
-}
-   
-#blank-carousel-item {
-    height: 14rem;
 }

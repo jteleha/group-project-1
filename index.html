@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- TODO: decide on name -->
     <title>Event Hunter</title>
     <!-- CSS link -->
     <link href="./develop/css/style.css" rel="stylesheet">
@@ -15,7 +14,6 @@
 <body>
     <div id="background">
         <header class="row" id="header">
-            <!-- TODO: Decide on name -->
             <h1>Event Hunter</h1>
             <div id="header-search">
                 <!-- Team/performer search -->
@@ -38,7 +36,7 @@
             <div class="sidebar col s4 " id="sidebar">
                 <div class="row" id="sidebar-inputs">
                     <form class="col s12">
-                        <div class="row white filter N/A transparent" id="input-event">
+                        <div class="row white filter transparent" id="input-event">
                             <!-- Event type selector -->
                             <div class="input-field col s12" id="input-event">
                                 <select id="event-option">
@@ -67,26 +65,26 @@
                                 <label>Event Type</label>
                             </div>
                         </div>
-                        <div class="row white filter N/A transparent" id="input-start-date">
+                        <div class="row white filter transparent" id="input-start-date">
                             <!-- Start Date picker -->
                             <input type="text" id="start-date" class="datepicker">
                             <label for="start-date" class="input-label">Start Date</label>
 
                         </div>
-                        <div class="row white filter N/A transparent" id="input-end-date">
+                        <div class="row white filter transparent" id="input-end-date">
                             <!-- End Date picker -->
                             <input type="text" id="end-date" class="datepicker">
                             <label for="end-date" class="input-label">End Date</label>
 
                         </div>
-                        <div class="row white filter N/A transparent">
+                        <div class="row white filter transparent">
                             <!-- City name input -->
                             <div class="input-field col s12" id="input-city">
                                 <input id="city-name" type="text">
                                 <label for="city-name" class="input-label">City Name</label>
                             </div>
                         </div>
-                        <div class="row white filter N/A transparent">
+                        <div class="row white filter transparent">
                             <!-- State name input -->
                             <div class="input-field col s12" id="input-state">
                                 <input id="state-name" type="text" data-length="2" class="validate">
@@ -110,6 +108,7 @@
     </div>
 
     <footer class="row">
+        <h2 class="white-text">Previously Viewed Events</h2>
         <div class="carousel"></div>
     </footer>
 
