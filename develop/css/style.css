@@ -76,7 +76,7 @@ header#header{
 /* id needed to override Materialize defaults */
 div.sidebar#sidebar{
     padding: 1rem 2rem 2rem 2rem;
-    height: 58em;
+    height: 60em;
 }
 
 #sidebar-inputs{
@@ -273,7 +273,7 @@ div.datepicker-controls > button.month-prev:active {
 .main-area {
     display: flex;
     flex-direction: column;
-    max-height: 58em;
+    max-height: 60em;
     overflow-x: hidden;
     overflow-y: auto;
 }
