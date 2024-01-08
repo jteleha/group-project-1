@@ -545,6 +545,10 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
         width: 100%;
     }
 
+    #next-page{
+        margin: 2rem auto !important;
+    }
+
     footer > h2 {
         font-size: 2em;
         margin: 1.5em 0 0 0;
