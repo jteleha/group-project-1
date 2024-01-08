@@ -3,7 +3,6 @@ var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&clie
 
 // setting elements as variables
 var btn = $("#submit-btn");
-
 var mainArea = $("#main-info");
 var eventCard = $(".event-card");
 var eventImg = $(".event-img");
@@ -14,6 +13,7 @@ var eventVenue = $(".event-venue");
 var minPrice = $(".min-price");
 var carouselEl = $(".carousel");
 var errorMsg = $("#error-msg");
+var clearBtn = $("#clear-carousel");
 
 // Track whether the carousel is initialized
 let carouselIsInitialized = false;
@@ -30,10 +30,14 @@ var today = dayjs().format("YYYY-MM-DD");
 var pageNumber = 1
 
 // Event listeners and function calls:
+// Submit listener
 btn.on("click", handleSubmit);
+// Search clear event listener
 $("#empty-search").on("click", emptySearch);
-$(minPrice).on('click', handleMinPriceClick);
+// Clear carousel event listener
+clearBtn.on("click", handleClearCarousel);
 
+// Initialization function
 init();
 
 var currentUrl = "";
@@ -57,7 +61,9 @@ function handleSubmit(event) {
     
     // resets url so old inputs don't add onto the new one
     var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
-    $(errorMsg).css("display", "none");
+    
+    // Clear old error message, if it exists
+    clearErrorMessage();
 
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
@@ -106,15 +112,11 @@ function handleSubmit(event) {
     if (startDate !== "" && endDate !== ""){
         // error msg if user made the end date before the start date
         if(startDate > endDate){
-            errorMsg.text("Please Make Sure The End Date Is After The Start Date!");
-            $(errorMsg).css({"display": "block", "color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is After The Start Date!");
             return;
         }else if(startDate === endDate){
             // error msg if user made both dates the same day
-            errorMsg.text("Please Make Sure The End Date Is Atleast One Day After The Start Date!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is At Least One Day After The Start Date!");
             return;
         }
         url += `&datetime_local.gte=${startDate}&datetime_local.lte=${endDate}`;
@@ -127,9 +129,7 @@ function handleSubmit(event) {
     }else if (startDate === "" && endDate !== ""){
         //error msg if end date is before todays date
         if(endDate < today){
-            errorMsg.text("Please Make Sure The End Date Is After The Current Date!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is After The Current Date!");
             return;
         }
         url += `&datetime_local.lte=${endDate}`
@@ -144,9 +144,7 @@ function handleSubmit(event) {
     if(stateName !== ""){
         // error mesg if user didn't enter the state abbr correct
         if(stateName.length !== 2){
-            errorMsg.text("Please Make Sure The State Abbreviation Is The Correct Length!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto", "margin-top": "-1em", "font-size": "12px", "font-weight": "bold"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The State Abbreviation Is The Correct Length!");
             return;
         }
         url += `&venue.state=${stateName}`;
@@ -164,6 +162,9 @@ function emptySearch(){
 
 //Handle the search
 function handleSearch(event){
+    // Clear existing error message
+    clearErrorMessage();
+
     //Comes back different based on if they used auto complete or manuelly submitted
     if(event !== undefined){
         event.preventDefault()
@@ -197,7 +198,12 @@ function fetchEvents(url) {
     .then(function(response){
         return response.json();
     })
-    .then(displayEvents);
+    .then(displayEvents)
+    .then(function () {
+        // Select the min-price class elements when created and add the event listener
+        minPrice = $(".min-price");
+        $(minPrice).on('click', handleMinPriceClick);
+    });
 }
 
 // Populate the event cards with event data
@@ -207,9 +213,7 @@ function displayEvents(data) {
 
     // error for if there isn't any events found
     if(allEvents.length === 0){
-        errorMsg.text("No results found");
-        $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"})
-        $(btn).css("margin-top", "1em")
+        displayErrorMessage("No results found");
         return;
     }
 
@@ -323,11 +327,11 @@ function displayEvents(data) {
         nextPageBtn.attr({"id": "next-page", "type": "button"});
         $(mainArea).append(nextPageBtn);
     }
+       
 
     return data;
 }
 
-// Function for next page button
 $(document).on("click", "#next-page", nextPageFunction)
 
 function nextPageFunction(){
@@ -354,7 +358,25 @@ function nextPageFunction(){
     }
 
     url = currentUrl;
-    fetchEvents(url);
+    fetchEvents(url)
+}    
+
+// Clears any existing error message
+function clearErrorMessage() {
+    // Hide the message
+    $(errorMsg).css("display", "none");
+    // Set the submit button's margin back to normal
+    $(btn).css("margin-top", "3em");
+}
+
+// Sets an error message
+function displayErrorMessage(errorString) {
+    // Set the error message's content
+    errorMsg.text(errorString);
+    // Display the error message
+    $(errorMsg).css({"display": "block", "color": "red", "text-align": "center", "margin": "0 auto"});
+    // Reduce the submit button's margin
+    $(btn).css("margin-top", "1em");
 }
 
 // Populate the carousel with event data
@@ -394,6 +416,15 @@ function displayCarousel(eventList) {
     // Initialize the carousel
     carouselEl.carousel({indicators: true});
     carouselIsInitialized = true;
+}
+
+// Handle the event in which the clear carousel button is clicked
+function handleClearCarousel() {
+    // Clear the recently viewed events locally and in storage
+    storeRecentlyViewedEvents([]);
+    recentlyViewed = [];
+    // Display the carousel without any recent events
+    displayCarousel([]);
 }
 
 // Get image location based on event type
