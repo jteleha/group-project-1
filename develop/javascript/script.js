@@ -3,7 +3,6 @@ var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&clie
 
 // setting elements as variables
 var btn = $("#submit-btn");
-
 var mainArea = $("#main-info");
 var eventCard = $(".event-card");
 var eventImg = $(".event-img");
@@ -14,6 +13,7 @@ var eventVenue = $(".event-venue");
 var minPrice = $(".min-price");
 var carouselEl = $(".carousel");
 var errorMsg = $("#error-msg");
+var clearBtn = $("#clear-carousel");
 
 // Track whether the carousel is initialized
 let carouselIsInitialized = false;
@@ -36,6 +36,8 @@ btn.on("click", handleSubmit);
 $("#empty-search").on("click", emptySearch);
 // Min price event listener
 $(minPrice).on('click', handleMinPriceClick);
+// Clear carousel event listener
+clearBtn.on("click", handleClearCarousel);
 
 // Initialization function
 init();
@@ -351,6 +353,15 @@ function displayCarousel(eventList) {
     // Initialize the carousel
     carouselEl.carousel({indicators: true});
     carouselIsInitialized = true;
+}
+
+// Handle the event in which the clear carousel button is clicked
+function handleClearCarousel() {
+    // Clear the recently viewed events locally and in storage
+    storeRecentlyViewedEvents([]);
+    recentlyViewed = [];
+    // Display the carousel without any recent events
+    displayCarousel([]);
 }
 
 // Get image location based on event type
