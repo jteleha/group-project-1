@@ -27,7 +27,7 @@ let recentlyViewed = [];
 //var for current day date
 var today = dayjs().format("YYYY-MM-DD");
 
-
+var pageNumber = 1
 
 // Event listeners and function calls:
 btn.on("click", handleSubmit);
@@ -36,7 +36,7 @@ $(minPrice).on('click', handleMinPriceClick);
 
 init();
 
-
+var currentUrl = "";
 
 // Function definitions:
 // Initialize the page
@@ -48,6 +48,8 @@ function init(){
 
 // Handle the event of the form being submitted
 function handleSubmit(event) {
+
+    pageNumber = 1
 
     if(event !== undefined){
         event.preventDefault();
@@ -150,6 +152,8 @@ function handleSubmit(event) {
         url += `&venue.state=${stateName}`;
     };
 
+    currentUrl = url;
+
     fetchEvents(url);
 }
 
@@ -175,6 +179,7 @@ function handleSearch(event){
     //applies the api argument
     url += `&performers.slug=${searchVal}`;
 
+
     //calls function to display events
     fetchEvents(url).then(data => {
         allEvents = data.events;
@@ -182,6 +187,7 @@ function handleSearch(event){
         displayCarousel(data);
         getRecentlyViewedEvents();
     });
+
 }
 
 // Fetch the events from the API and display
@@ -307,9 +313,48 @@ function displayEvents(data) {
         minPrice.text("From: $" + allEvents[i].stats.lowest_sg_base_price);
         $(ticketPrice).append(minPrice);
 
-    }    
+    }  
+    
+    // Next page button if there is the max events displayed
+    if(allEvents.length === 10){
+        var nextPageBtn = $("<button>");
+        nextPageBtn.text("Next Page")
+        nextPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "14px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
+        nextPageBtn.attr({"id": "next-page", "type": "button"});
+        $(mainArea).append(nextPageBtn);
+    }
 
     return data;
+}
+
+// Function for next page button
+$(document).on("click", "#next-page", nextPageFunction)
+
+function nextPageFunction(){
+
+    // Will add 1 based on which page number it already is
+    if(pageNumber === 1){
+        pageNumber += 1
+        currentUrl += `&page=${pageNumber}`;
+
+    // After next page is already selected it removes that ending from the string then readds it to the string with appropriate page number 
+    }else if(pageNumber >= 2){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-7);
+            pageNumber += 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+        
+    }else if(pageNumber >= 10){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-8);
+            pageNumber += 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+    }
+
+    url = currentUrl;
+    fetchEvents(url);
 }
 
 // Populate the carousel with event data
