@@ -412,7 +412,7 @@ function displayErrorMessage(errorString) {
     // Set the error message's content
     errorMsg.text(errorString);
     // Display the error message
-    $(errorMsg).css({"display": "block", "color": "red", "text-align": "center", "margin": "0 auto"});
+    $(errorMsg).css({"display": "block"});
     // Reduce the submit button's margin
     $(btn).css("margin-top", "1em");
 }

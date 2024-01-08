@@ -294,6 +294,13 @@ tr.datepicker-row td.is-today:hover{
     background-color: var(--vibrant-color);
 }
 
+/* error message */
+#error-msg {
+    color: red;
+    text-align: center;
+    margin: 0 auto;
+}
+
 /* Style main area */
 .main-area {
     display: flex;
