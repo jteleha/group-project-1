@@ -58,7 +58,9 @@ function handleSubmit(event) {
     
     // resets url so old inputs don't add onto the new one
     var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
-    $(errorMsg).css("display", "none");
+    
+    // Clear old error message, if it exists
+    clearErrorMessage();
 
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
@@ -107,15 +109,11 @@ function handleSubmit(event) {
     if (startDate !== "" && endDate !== ""){
         // error msg if user made the end date before the start date
         if(startDate > endDate){
-            errorMsg.text("Please Make Sure The End Date Is After The Start Date!");
-            $(errorMsg).css({"display": "block", "color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is After The Start Date!");
             return;
         }else if(startDate === endDate){
             // error msg if user made both dates the same day
-            errorMsg.text("Please Make Sure The End Date Is Atleast One Day After The Start Date!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is At Least One Day After The Start Date!");
             return;
         }
         url += `&datetime_local.gte=${startDate}&datetime_local.lte=${endDate}`;
@@ -128,9 +126,7 @@ function handleSubmit(event) {
     }else if (startDate === "" && endDate !== ""){
         //error msg if end date is before todays date
         if(endDate < today){
-            errorMsg.text("Please Make Sure The End Date Is After The Current Date!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is After The Current Date!");
             return;
         }
         url += `&datetime_local.lte=${endDate}`
@@ -145,9 +141,7 @@ function handleSubmit(event) {
     if(stateName !== ""){
         // error mesg if user didn't enter the state abbr correct
         if(stateName.length !== 2){
-            errorMsg.text("Please Make Sure The State Abbreviation Is The Correct Length!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto", "margin-top": "-1em", "font-size": "12px", "font-weight": "bold"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The State Abbreviation Is The Correct Length!");
             return;
         }
         url += `&venue.state=${stateName}`;
@@ -163,7 +157,8 @@ function emptySearch(){
 
 //Handle the search
 function handleSearch(event){
-    $(errorMsg).css("display", "none");
+    // Clear existing error message
+    clearErrorMessage();
 
     //Comes back different based on if they used auto complete or manuelly submitted
     if(event !== undefined){
@@ -211,9 +206,7 @@ function displayEvents(data) {
 
     // error for if there isn't any events found
     if(allEvents.length === 0){
-        errorMsg.text("No results found");
-        $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"})
-        $(btn).css("margin-top", "1em")
+        displayErrorMessage("No results found");
         return;
     }
 
@@ -319,6 +312,24 @@ function displayEvents(data) {
     }    
 
     return data;
+}
+
+// Clears any existing error message
+function clearErrorMessage() {
+    // Hide the message
+    $(errorMsg).css("display", "none");
+    // Set the submit button's margin back to normal
+    $(btn).css("margin-top", "3em");
+}
+
+// Sets an error message
+function displayErrorMessage(errorString) {
+    // Set the error message's content
+    errorMsg.text(errorString);
+    // Display the error message
+    $(errorMsg).css({"display": "block", "color": "red", "text-align": "center", "margin": "0 auto"});
+    // Reduce the submit button's margin
+    $(btn).css("margin-top", "1em");
 }
 
 // Populate the carousel with event data
