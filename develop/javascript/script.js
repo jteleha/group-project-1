@@ -163,6 +163,8 @@ function emptySearch(){
 
 //Handle the search
 function handleSearch(event){
+    $(errorMsg).css("display", "none");
+
     //Comes back different based on if they used auto complete or manuelly submitted
     if(event !== undefined){
         event.preventDefault()
