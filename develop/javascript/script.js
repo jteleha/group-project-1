@@ -30,10 +30,14 @@ var today = dayjs().format("YYYY-MM-DD");
 
 
 // Event listeners and function calls:
+// Submit listener
 btn.on("click", handleSubmit);
+// Search clear event listener
 $("#empty-search").on("click", emptySearch);
+// Min price event listener
 $(minPrice).on('click', handleMinPriceClick);
 
+// Initialization function
 init();
 
 
@@ -48,7 +52,6 @@ function init(){
 
 // Handle the event of the form being submitted
 function handleSubmit(event) {
-
     if(event !== undefined){
         event.preventDefault();
     }
@@ -306,7 +309,6 @@ function displayEvents(data) {
         minPrice.attr({"target": "_blank", "href": allEvents[i].url});
         minPrice.text("From: $" + allEvents[i].stats.lowest_sg_base_price);
         $(ticketPrice).append(minPrice);
-
     }    
 
     return data;
