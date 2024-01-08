@@ -182,12 +182,7 @@ function handleSearch(event){
 
 
     //calls function to display events
-    fetchEvents(url).then(data => {
-        allEvents = data.events;
-        displayEvents(data);
-        displayCarousel(data);
-        getRecentlyViewedEvents();
-    });
+    fetchEvents(url);
 
 }
 
@@ -323,7 +318,7 @@ function displayEvents(data) {
     if(allEvents.length === 10){
         var nextPageBtn = $("<button>");
         nextPageBtn.text("Next Page")
-        nextPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "14px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
+        nextPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "16px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
         nextPageBtn.attr({"id": "next-page", "type": "button"});
         $(mainArea).append(nextPageBtn);
     }
