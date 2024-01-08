@@ -123,16 +123,17 @@ div.sidebar#sidebar{
     fill: white;
 }
 
-/* text for start date label */
-#input-start-date label{
+/* text for date label */
+#input-start-date label,
+#input-end-date label {
     color: white;
     font-size: var(--label-size);
     font-weight: var(--label-font-weight);
-    
 }
 
-/* text for start date input */
-#input-start-date input{
+/* text for date input */
+#input-start-date .datepicker,
+#input-end-date .datepicker {
     margin-top: 0.5em;
     border-bottom: 2px solid white;
     color: white;
@@ -141,12 +142,14 @@ div.sidebar#sidebar{
 }
 
 /* for date that is selected */
-#input-start-date .datepicker-table td.is-selected{
+#input-start-date .datepicker-table td.is-selected,
+#input-end-date .datepicker-table td.is-selected {
     background-color: var(--vibrant-color);
 }
 
 /* datepicker month and year on top of calendar */
-#input-start-date div.select-wrapper input.select-dropdown.dropdown-trigger{
+#input-start-date div.select-wrapper input.select-dropdown.dropdown-trigger,
+#input-end-date div.select-wrapper input.select-dropdown.dropdown-trigger {
     color: var(--vibrant-color);
     font-size: 18px;
     border-bottom: 1px solid var(--vibrant-color);
@@ -155,57 +158,19 @@ div.sidebar#sidebar{
 }
 
 /* For "cancel" button */
-#input-start-date .datepicker-cancel{
+#input-start-date .datepicker-cancel,
+#input-end-date .datepicker-cancel {
     color: var(--vibrant-color);
 }
 
 /* For "okay" button */
-#input-start-date .datepicker-done{
+#input-start-date .datepicker-done,
+#input-end-date .datepicker-done {
     color: var(--vibrant-color);
-}
-
-/* text for end date label */
-#input-end-date label{
-    color: white;
-    font-size: var(--label-size);
-    font-weight: var(--label-font-weight);
-}
-
-/* text for end date input */
-#input-end-date input{
-    margin-top: 0.5em;
-    border-bottom: 2px solid white;
-    color: white;
-    font-size: var(--input-size);
-    font-weight: var(--input-font-weight);
 }
 
 /* datepicker background  */
 div.datepicker-date-display{
-    background-color: var(--vibrant-color);
-}
-
-/* For "okay" button */
-#input-end-date .datepicker-done{
-    color: var(--vibrant-color);
-}
-
-/* For "cancel" button */
-#input-end-date .datepicker-cancel{
-    color: var(--vibrant-color);
-}
-
-/* datepicker month and year on top of calendar */
-#input-end-date div.select-wrapper input.select-dropdown.dropdown-trigger{
-    color: var(--vibrant-color);
-    font-size: 18px;
-    border-bottom: 1px solid var(--vibrant-color);
-    width: 100%;
-    margin-bottom: 0.5em;
-}
-
-/* for date that is selected */
-#input-end-date .datepicker-table td.is-selected{
     background-color: var(--vibrant-color);
 }
 
