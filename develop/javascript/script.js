@@ -36,6 +36,10 @@ btn.on("click", handleSubmit);
 $("#empty-search").on("click", emptySearch);
 // Clear carousel event listener
 clearBtn.on("click", handleClearCarousel);
+// Next page event listener
+$(document).on("click", "#next-page", nextPageFunction)
+// Clear input form
+$("#clear-input").on("click", emptyForm);
 
 // Initialization function
 init();
@@ -158,6 +162,20 @@ function handleSubmit(event) {
 //Empty search bar when X is clicked
 function emptySearch(){
     $("#search").val("");
+}
+
+//Empty the form when clear button is clicked
+function emptyForm(){
+    var filters = $(".user-input")
+    console.log(filters)
+    for(var i = 0; i < filters.length; i++){
+        if(filters[i].val !== ""){
+            $(filters[i]).val("");
+        }
+        
+    }
+
+    $(".select-wrapper").val("");
 }
 
 //Handle the search
@@ -327,7 +345,6 @@ function displayEvents(data) {
     return data;
 }
 
-$(document).on("click", "#next-page", nextPageFunction)
 
 function nextPageFunction(){
 

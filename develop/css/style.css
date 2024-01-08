@@ -288,10 +288,28 @@ tr.datepicker-row td.is-today:hover{
     color: white;
 }
 
-#submit-btn {
-    margin: 3em auto 0 auto;
+/* lets the buttons be in the same row */
+#button-row{
     display: flex;
+    flex-direction: row;
+}
+
+/* css for search and clear button */
+#clear-input, #submit-btn {
+    color: white;
+    font-size: 16px;
     background-color: var(--vibrant-color);
+}
+
+/* set the position of each button */
+#clear-input{
+    margin-left: 0;
+    margin-right: auto;
+}
+
+#submit-btn{
+    margin-left: auto;
+    margin-right: 0;
 }
 
 /* Style main area */
