@@ -34,8 +34,6 @@ var today = dayjs().format("YYYY-MM-DD");
 btn.on("click", handleSubmit);
 // Search clear event listener
 $("#empty-search").on("click", emptySearch);
-// Min price event listener
-$(minPrice).on('click', handleMinPriceClick);
 // Clear carousel event listener
 clearBtn.on("click", handleClearCarousel);
 
@@ -196,7 +194,12 @@ function fetchEvents(url) {
     .then(function(response){
         return response.json();
     })
-    .then(displayEvents);
+    .then(displayEvents)
+    .then(function () {
+        // Select the min-price class elements when created and add the event listener
+        minPrice = $(".min-price");
+        $(minPrice).on('click', handleMinPriceClick);
+    });
 }
 
 // Populate the event cards with event data
