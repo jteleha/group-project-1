@@ -239,6 +239,7 @@ div.datepicker-controls > button.month-prev:active {
 #button-row{
     display: flex;
     flex-direction: row;
+    max-height: 100%;
 }
 
 /* css for search and clear button */
@@ -264,7 +265,9 @@ div.datepicker-controls > button.month-prev:active {
 #submit-btn{
     margin-left: auto;
     margin-right: 0;
+    margin-top: 0 !important;
 }
+
 
 /* Style main area */
 .main-area {
