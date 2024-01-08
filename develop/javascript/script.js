@@ -27,6 +27,7 @@ let recentlyViewed = [];
 //var for current day date
 var today = dayjs().format("YYYY-MM-DD");
 
+// Page number of the event results
 var pageNumber = 1
 
 // Event listeners and function calls:
@@ -36,6 +37,9 @@ btn.on("click", handleSubmit);
 $("#empty-search").on("click", emptySearch);
 // Clear carousel event listener
 clearBtn.on("click", handleClearCarousel);
+// Next and previous page event listeners
+$(document).on("click", "#prev-page", prevPageFunction)
+$(document).on("click", "#next-page", nextPageFunction)
 
 // Initialization function
 init();
@@ -318,24 +322,31 @@ function displayEvents(data) {
         $(ticketPrice).append(minPrice);
 
     }  
+
+    // Previous page button if page number is greater than one
+    if (pageNumber > 1) {
+        var prevPageBtn = $("<button>");
+        prevPageBtn.text("Previous Page")
+        prevPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "16px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
+        prevPageBtn.attr({"id": "prev-page", "type": "button"});
+        $(mainArea).append(prevPageBtn);
+    }
     
     // Next page button if there is the max events displayed
-    if(allEvents.length === 10){
+    console.log(data.meta.total)
+    if(data.meta.total > 10){
         var nextPageBtn = $("<button>");
         nextPageBtn.text("Next Page")
         nextPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "16px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
         nextPageBtn.attr({"id": "next-page", "type": "button"});
         $(mainArea).append(nextPageBtn);
     }
-       
 
     return data;
 }
 
-$(document).on("click", "#next-page", nextPageFunction)
-
+// Handle the event in which the next page button is clicked
 function nextPageFunction(){
-
     // Will add 1 based on which page number it already is
     if(pageNumber === 1){
         pageNumber += 1
@@ -358,6 +369,37 @@ function nextPageFunction(){
     }
 
     url = currentUrl;
+    console.log(currentUrl)
+    console.log(url)
+    fetchEvents(url)
+}
+
+// Handle the event in which the previous page button is clicked
+function prevPageFunction() {
+    // If on page 2, remove the page query parameter
+    if (pageNumber === 2) {
+        pageNumber -= 1
+        currentUrl = currentUrl.slice(0,-7);
+
+    // Else, replace the page query parameter with the current page
+    }else if(pageNumber > 2){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-7);
+            pageNumber -= 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+        
+    }else if(pageNumber >= 10){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-8);
+            pageNumber -= 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+    }
+
+    url = currentUrl;
+    console.log(currentUrl)
+    console.log(url)
     fetchEvents(url)
 }    
 
