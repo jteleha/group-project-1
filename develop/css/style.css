@@ -394,7 +394,7 @@ footer.row {
 
 /* Style carousel cards */
 div.carousel {
-    height: 35rem;
+    height: 40rem;
 }
 
 div.carousel > div.carousel-item {
@@ -466,7 +466,8 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
     }
 
     div.card-image{
-        min-height: 12em ;
+        min-height: 15em ;
+        max-height: 15em;
         width: 100%;
     }
 
@@ -483,22 +484,60 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
 
     .card-content h3{
         max-height: 5rem;
+        min-height: 5rem;
         font-size: 25px;
         font-weight: 600;
         overflow: hidden;
+        overflow-y: auto;
     }
 
     div.description{
         flex-direction: row;
-        font-size: 18px;
+        font-size: 16px;
         overflow: hidden;
-        text-overflow: ellipsis;
-        max-height: 3rem;
+        max-height: 2rem;
+        min-height: 2rem;
     }
 
     p.event-type{
         display: none;
     }
 
+    .description > p{
+        width: 100%;
+    }
+}
+
+/* Mobile M */
+@media screen and (max-width: 376px){
+    div.event-card{
+        min-width: 22rem;
+    }
+
+    div.description{
+        max-height: 3.5rem;
+        min-height: 3.5rem;
+    }
+
+}
+
+/* Mobile S */
+@media screen and (max-width: 321px){
+    div.event-card{
+        min-width: 19rem;
+    }
+
+    .card-content h3{
+        font-size: 22px;
+        max-height: 4rem;
+        min-height: 4rem;
+    }
+
+    div.description{
+        font-size: 14px;
+    }
+}
    
+#blank-carousel-item {
+    height: 14rem;
 }
