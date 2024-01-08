@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: rgb(100,100,100);
+    background-color: rgb(100, 100, 110);
 }
 
 /* Style header */
@@ -84,7 +84,6 @@ div.sidebar#sidebar{
     width: 75%;
 }
 
-
 .filter {
     border: solid 3px white;
     padding: 0.5em;
@@ -123,16 +122,17 @@ div.sidebar#sidebar{
     fill: white;
 }
 
-/* text for start date label */
-#input-start-date label{
+/* text for date label */
+#input-start-date label,
+#input-end-date label {
     color: white;
     font-size: var(--label-size);
     font-weight: var(--label-font-weight);
-    
 }
 
-/* text for start date input */
-#input-start-date input{
+/* text for date input */
+#input-start-date .datepicker,
+#input-end-date .datepicker {
     margin-top: 0.5em;
     border-bottom: 2px solid white;
     color: white;
@@ -141,12 +141,14 @@ div.sidebar#sidebar{
 }
 
 /* for date that is selected */
-#input-start-date .datepicker-table td.is-selected{
+#input-start-date .datepicker-table td.is-selected,
+#input-end-date .datepicker-table td.is-selected {
     background-color: var(--vibrant-color);
 }
 
 /* datepicker month and year on top of calendar */
-#input-start-date div.select-wrapper input.select-dropdown.dropdown-trigger{
+#input-start-date div.select-wrapper input.select-dropdown.dropdown-trigger,
+#input-end-date div.select-wrapper input.select-dropdown.dropdown-trigger {
     color: var(--vibrant-color);
     font-size: 18px;
     border-bottom: 1px solid var(--vibrant-color);
@@ -155,57 +157,19 @@ div.sidebar#sidebar{
 }
 
 /* For "cancel" button */
-#input-start-date .datepicker-cancel{
+#input-start-date .datepicker-cancel,
+#input-end-date .datepicker-cancel {
     color: var(--vibrant-color);
 }
 
 /* For "okay" button */
-#input-start-date .datepicker-done{
+#input-start-date .datepicker-done,
+#input-end-date .datepicker-done {
     color: var(--vibrant-color);
-}
-
-/* text for end date label */
-#input-end-date label{
-    color: white;
-    font-size: var(--label-size);
-    font-weight: var(--label-font-weight);
-}
-
-/* text for end date input */
-#input-end-date input{
-    margin-top: 0.5em;
-    border-bottom: 2px solid white;
-    color: white;
-    font-size: var(--input-size);
-    font-weight: var(--input-font-weight);
 }
 
 /* datepicker background  */
 div.datepicker-date-display{
-    background-color: var(--vibrant-color);
-}
-
-/* For "okay" button */
-#input-end-date .datepicker-done{
-    color: var(--vibrant-color);
-}
-
-/* For "cancel" button */
-#input-end-date .datepicker-cancel{
-    color: var(--vibrant-color);
-}
-
-/* datepicker month and year on top of calendar */
-#input-end-date div.select-wrapper input.select-dropdown.dropdown-trigger{
-    color: var(--vibrant-color);
-    font-size: 18px;
-    border-bottom: 1px solid var(--vibrant-color);
-    width: 100%;
-    margin-bottom: 0.5em;
-}
-
-/* for date that is selected */
-#input-end-date .datepicker-table td.is-selected{
     background-color: var(--vibrant-color);
 }
 
@@ -224,34 +188,8 @@ tr.datepicker-row td.is-today:hover{
     color: black;
 }
 
-/* label for city input */
-#input-city label {
-    color: white;
-    font-size: var(--label-size);
-    font-weight: var(--label-font-weight);
-}
-
-/* label on focus */
-#input-city input[type=text]:focus + label {
-    font-size: 15px;
-}
-
-/* city input underline on focus */
-#input-city input[type=text]:focus {
-    border-bottom: 2px solid white;
-    box-shadow: 0 1px 0 0 #000;
-}
-
-/* text entered into the input */
-#input-city input {
-    margin-top: 0.5em;
-    border-bottom: 2px solid white;
-    color: white;
-    font-size: var(--input-size);
-    font-weight: var(--input-font-weight);
-}
-
-/* label for state input */
+/* label for city and state input */
+#input-city label,
 #input-state label {
     color: white;
     font-size: var(--label-size);
@@ -259,17 +197,20 @@ tr.datepicker-row td.is-today:hover{
 }
 
 /* label on focus */
+#input-city input[type=text]:focus + label,
 #input-state input[type=text]:focus + label {
     font-size: 15px;
 }
 
-/* state input underline on focus */
+/* city and state input underline on focus */
+#input-city input[type=text]:focus,
 #input-state input[type=text]:focus {
     border-bottom: 2px solid white;
     box-shadow: 0 1px 0 0 #000;
 }
 
 /* text entered into the input */
+#input-city input,
 #input-state input {
     margin-top: 0.5em;
     border-bottom: 2px solid white;
@@ -282,7 +223,7 @@ tr.datepicker-row td.is-today:hover{
 #input-state input[type=text].invalid {
     border-bottom: 2px solid red;
     box-shadow: 0 1px 0 0 #000;
-  }
+}
 
 #input-state span.character-counter{
     color: white;
@@ -299,6 +240,13 @@ tr.datepicker-row td.is-today:hover{
     color: white;
     font-size: 16px;
     background-color: var(--vibrant-color);
+}
+
+/* error message */
+#error-msg {
+    color: red;
+    text-align: center;
+    margin: 0 auto;
 }
 
 /* set the position of each button */
@@ -401,6 +349,27 @@ div.event-card > div.card-content {
     color: white;
     border: 1px solid black;
     border-radius: 10px;
+}
+
+/* Style previous and next buttons */
+#prev-page, #next-page {
+    padding: 1em;
+    width: 50%;
+    background-color: var(--vibrant-color);
+    color: white;
+    align-self: center;
+    margin: 0 0 2rem 0;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 2px;
+    border: 1px solid var(--vibrant-color);
+    transition: ease-in-out 0.5s;
+}
+
+#prev-page:hover, #next-page:hover{
+    background-color: black;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
 /* Style footer */
@@ -563,8 +532,8 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
         width: 100%;
     }
 
-    #next-page{
-        margin: 2rem auto !important;
+    #prev-page, #next-page{
+        margin: 2rem 1em 2em auto !important;
     }
 
     footer > h2 {
@@ -587,6 +556,7 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
 
 /* Mobile S */
 @media screen and (max-width: 321px){
+
     div.event-card{
         min-width: 19rem;
     }
