@@ -151,6 +151,9 @@ function handleSubmit(event) {
         if(stateName.length !== 2){
             displayErrorMessage("Please Make Sure The State Abbreviation Is The Correct Length!");
             return;
+        } else if (!isValidStateAbbr(stateName)) {
+            displayErrorMessage("Please Input A Valid United States State Abbreviation!")
+            return
         }
         url += `&venue.state=${stateName}`;
     };
@@ -158,6 +161,19 @@ function handleSubmit(event) {
     currentUrl = url;
 
     fetchEvents(url);
+}
+
+// Checks whether the given two-letter state abbreviation is valid
+function isValidStateAbbr(stateAbbr) {
+    stateAbbr = stateAbbr.toUpperCase();
+    // It seems that the ISO 3166 codes for all 50 states, DC, and the permanently-inhabited territories are allowed
+    let validAbbrList = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", 
+                        "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                        "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                        "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                        "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+                        "DC", "AS", "GU", "MP", "PR", "VI"];
+    return validAbbrList.includes(stateAbbr);
 }
 
 //Empty search bar when X is clicked
