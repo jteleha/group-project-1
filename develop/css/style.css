@@ -188,6 +188,12 @@ tr.datepicker-row td.is-today:hover{
     color: black;
 }
 
+/* datepicker prev and next month arrows */
+div.datepicker-controls > button.month-next:active,
+div.datepicker-controls > button.month-prev:active {
+    background-color: var(--vibrant-color);
+}
+
 /* label for city and state input */
 #input-city label,
 #input-state label {
