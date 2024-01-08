@@ -229,8 +229,13 @@ function displayEvents(data) {
         var img = $("<div>");
         img.addClass("event-img");
 
-        // Checks the event type and applies the photo that goes with that event
-        img.css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
+        // If the API returned an image, use that image
+        // Else, choose a default image based on event type
+        if (allEvents[i].performers[0].image) {
+            img.css({"background-image": "url('" + allEvents[i].performers[0].image + "')"});
+        } else {
+            img.css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
+        }
         $(imgHolder).append(img);
 
         // div containing the event info
