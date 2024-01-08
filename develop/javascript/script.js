@@ -328,7 +328,6 @@ function displayEvents(data) {
     if (pageNumber > 1) {
         var prevPageBtn = $("<button>");
         prevPageBtn.text("Previous Page")
-        prevPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "16px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
         prevPageBtn.attr({"id": "prev-page", "type": "button"});
         $(mainArea).append(prevPageBtn);
     }
@@ -337,7 +336,6 @@ function displayEvents(data) {
     if(data.meta.total > 10 && allEvents.length === 10){
         var nextPageBtn = $("<button>");
         nextPageBtn.text("Next Page")
-        nextPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "16px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
         nextPageBtn.attr({"id": "next-page", "type": "button"});
         $(mainArea).append(nextPageBtn);
     }
