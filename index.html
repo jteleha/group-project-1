@@ -39,7 +39,7 @@
                         <div class="row white filter transparent" id="input-event">
                             <!-- Event type selector -->
                             <div class="input-field col s12" id="input-event">
-                                <select id="event-option">
+                                <select id="event-option" class="user-input">
                                     <option value="" disabled selected></option>
                                     <option>Concert</option>
                                     <option>Music Festival</option>
@@ -67,35 +67,39 @@
                         </div>
                         <div class="row white filter transparent" id="input-start-date">
                             <!-- Start Date picker -->
-                            <input type="text" id="start-date" class="datepicker">
+                            <input type="text" id="start-date" class="datepicker user-input">
                             <label for="start-date" class="input-label">Start Date</label>
 
                         </div>
                         <div class="row white filter transparent" id="input-end-date">
                             <!-- End Date picker -->
-                            <input type="text" id="end-date" class="datepicker">
+                            <input type="text" id="end-date" class="datepicker user-input">
                             <label for="end-date" class="input-label">End Date</label>
 
                         </div>
                         <div class="row white filter transparent">
                             <!-- City name input -->
                             <div class="input-field col s12" id="input-city">
-                                <input id="city-name" type="text">
+                                <input id="city-name" type="text" class="user-input">
                                 <label for="city-name" class="input-label">City Name</label>
                             </div>
                         </div>
                         <div class="row white filter transparent">
                             <!-- State name input -->
                             <div class="input-field col s12" id="input-state">
-                                <input id="state-name" type="text" data-length="2" class="validate">
+                                <input id="state-name" type="text" data-length="2" class="validate user-input">
                                 <label for="state-name" class="input-label">State abbr</label>
                             </div>
                         </div>
                         <div class="row">
                             <!-- For error messages -->
                             <p id="error-msg"></p>
-                            <!-- Submit button -->
-                            <button id="submit-btn"class="btn waves-effect waves-light" type="submit" name="action">Search</button>                        
+                            <div id="button-row">
+                                <!-- Clear inputs -->
+                                <button id="clear-input" class="btn waves-effect waves-light" type="button">Clear</button>
+                                <!-- Submit button -->
+                                <button id="submit-btn"class="btn waves-effect waves-light" type="submit" name="action">Search</button>                        
+                            </div>
                         </div>
                     </form>
                 </div>

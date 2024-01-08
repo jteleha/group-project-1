@@ -235,9 +235,16 @@ div.datepicker-controls > button.month-prev:active {
     color: white;
 }
 
-#submit-btn {
-    margin: 3em auto 0 auto;
+/* lets the buttons be in the same row */
+#button-row{
     display: flex;
+    flex-direction: row;
+}
+
+/* css for search and clear button */
+#clear-input, #submit-btn {
+    color: white;
+    font-size: 16px;
     background-color: var(--vibrant-color);
 }
 
@@ -246,6 +253,17 @@ div.datepicker-controls > button.month-prev:active {
     color: red;
     text-align: center;
     margin: 0 auto;
+}
+
+/* set the position of each button */
+#clear-input{
+    margin-left: 0;
+    margin-right: auto;
+}
+
+#submit-btn{
+    margin-left: auto;
+    margin-right: 0;
 }
 
 /* Style main area */
@@ -351,6 +369,13 @@ div.event-card > div.card-content {
     font-size: 16px;
     border-radius: 2px;
     border: 1px solid var(--vibrant-color);
+    transition: ease-in-out 0.5s;
+}
+
+#prev-page:hover, #next-page:hover{
+    background-color: black;
+    border: 1px solid black;
+    cursor: pointer;
 }
 
 /* Style footer */
@@ -537,6 +562,7 @@ div.carousel > div.carousel-item > div.card-content > a > h3 {
 
 /* Mobile S */
 @media screen and (max-width: 321px){
+
     div.event-card{
         min-width: 19rem;
     }

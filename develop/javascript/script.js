@@ -35,6 +35,8 @@ var pageNumber = 1
 btn.on("click", handleSubmit);
 // Search clear event listener
 $("#empty-search").on("click", emptySearch);
+// Clear inputs
+$("#clear-input").on("click", emptyForm);
 // Clear carousel event listener
 clearBtn.on("click", handleClearCarousel);
 // Next and previous page event listeners
@@ -179,6 +181,21 @@ function isValidStateAbbr(stateAbbr) {
 //Empty search bar when X is clicked
 function emptySearch(){
     $("#search").val("");
+}
+
+//Empty the form when clear button is clicked
+function emptyForm(){
+    var filters = $(".user-input")
+    console.log(filters)
+    for(var i = 0; i < filters.length; i++){
+        if(filters[i].val !== ""){
+            $(filters[i]).val("");
+        }
+        
+    }
+
+    // Has to be ore specific to clear the event type input
+    $("#input-event input").val("");
 }
 
 //Handle the search
