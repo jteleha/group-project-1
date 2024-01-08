@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: rgb(100,100,100);
+    background-color: rgb(100, 100, 110);
 }
 
 /* Style header */
@@ -83,7 +83,6 @@ div.sidebar#sidebar{
     margin-left: 1em;
     width: 75%;
 }
-
 
 .filter {
     border: solid 3px white;
@@ -189,34 +188,8 @@ tr.datepicker-row td.is-today:hover{
     color: black;
 }
 
-/* label for city input */
-#input-city label {
-    color: white;
-    font-size: var(--label-size);
-    font-weight: var(--label-font-weight);
-}
-
-/* label on focus */
-#input-city input[type=text]:focus + label {
-    font-size: 15px;
-}
-
-/* city input underline on focus */
-#input-city input[type=text]:focus {
-    border-bottom: 2px solid white;
-    box-shadow: 0 1px 0 0 #000;
-}
-
-/* text entered into the input */
-#input-city input {
-    margin-top: 0.5em;
-    border-bottom: 2px solid white;
-    color: white;
-    font-size: var(--input-size);
-    font-weight: var(--input-font-weight);
-}
-
-/* label for state input */
+/* label for city and state input */
+#input-city label,
 #input-state label {
     color: white;
     font-size: var(--label-size);
@@ -224,17 +197,20 @@ tr.datepicker-row td.is-today:hover{
 }
 
 /* label on focus */
+#input-city input[type=text]:focus + label,
 #input-state input[type=text]:focus + label {
     font-size: 15px;
 }
 
-/* state input underline on focus */
+/* city and state input underline on focus */
+#input-city input[type=text]:focus,
 #input-state input[type=text]:focus {
     border-bottom: 2px solid white;
     box-shadow: 0 1px 0 0 #000;
 }
 
 /* text entered into the input */
+#input-city input,
 #input-state input {
     margin-top: 0.5em;
     border-bottom: 2px solid white;
@@ -247,7 +223,7 @@ tr.datepicker-row td.is-today:hover{
 #input-state input[type=text].invalid {
     border-bottom: 2px solid red;
     box-shadow: 0 1px 0 0 #000;
-  }
+}
 
 #input-state span.character-counter{
     color: white;
