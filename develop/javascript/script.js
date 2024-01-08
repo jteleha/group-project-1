@@ -44,7 +44,8 @@ $(document).on("click", "#next-page", nextPageFunction)
 // Initialization function
 init();
 
-var currentUrl = "";
+// variable for URL to update
+var currentUrl = url;
 
 // Function definitions:
 // Initialize the page
@@ -333,8 +334,7 @@ function displayEvents(data) {
     }
     
     // Next page button if there is the max events displayed
-    console.log(data.meta.total)
-    if(data.meta.total > 10){
+    if(data.meta.total > 10 && allEvents.length === 10){
         var nextPageBtn = $("<button>");
         nextPageBtn.text("Next Page")
         nextPageBtn.css({"padding": "1em", "width": "50%", "background-color": "var(--vibrant-color)", "color": "white", "margin": "0 auto 2em auto", "text-align": "center", "font-size": "16px", "border-radius": "2px", "border": "1px solid var(--vibrant-color)"});
@@ -369,8 +369,6 @@ function nextPageFunction(){
     }
 
     url = currentUrl;
-    console.log(currentUrl)
-    console.log(url)
     fetchEvents(url)
 }
 
@@ -398,8 +396,6 @@ function prevPageFunction() {
     }
 
     url = currentUrl;
-    console.log(currentUrl)
-    console.log(url)
     fetchEvents(url)
 }    
 
