@@ -499,6 +499,15 @@ div.carousel > div.carousel-item > div.card-content > a:hover {
     #header-search{
         margin-right: auto;
     }
+
+    div.carousel > div.carousel-item{
+        width: 27rem;
+        height: 30rem;
+    }
+
+    div.carousel > div.carousel-item > div.card-image > img{
+        height: 17rem;
+    }
 }
 
 /* Mobile L */
@@ -585,6 +594,10 @@ div.carousel > div.carousel-item > div.card-content > a:hover {
         font-size: 2em;
         margin: 1.5em 0 0 0;
     }
+
+    div.carousel > div.carousel-item{
+        width: 20rem;
+    }
 }
 
 /* Mobile M */
@@ -614,5 +627,9 @@ div.carousel > div.carousel-item > div.card-content > a:hover {
 
     div.description{
         font-size: 14px;
+    }
+
+    footer > h2{
+        font-size: 25px;
     }
 }
