@@ -381,7 +381,7 @@ div.event-card > div.card-content {
     transition: ease-in-out 0.5s;
 }
 
-#prev-page:hover, #next-page:hover{
+#prev-page:hover, #next-page:hover, #clear-carousel:hover{
     background-color: black;
     border: 1px solid black;
     cursor: pointer;
@@ -415,6 +415,7 @@ footer > h2 {
     position: relative;
     top: 43rem;
 }
+
 
 /* Style carousel cards */
 div.carousel {
