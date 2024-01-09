@@ -1,4 +1,4 @@
-# group-project-1
+# event-hunter
 
 ## Description
 
