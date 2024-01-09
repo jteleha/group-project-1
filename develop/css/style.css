@@ -358,6 +358,7 @@ div.event-card > div.card-content {
     padding: 0.5rem;
     color: white;
     transition: 0.5s ease-in-out;
+    text-align: center;
 }
 
 .min-price:hover {
