@@ -416,6 +416,7 @@ footer > h2 {
     background-color: var(--vibrant-color);
     position: relative;
     top: 43rem;
+    transition: ease-in-out 0.5s;
 }
 
 
@@ -437,7 +438,7 @@ div.carousel > div.carousel-item > div.card-image {
 }
 
 div.carousel > div.carousel-item > div.card-image > img {
-    height: 19rem;
+    height: 18rem;
     width: 100%;
     border-radius: 24px 24px 0 0;
 }
@@ -460,6 +461,19 @@ div.carousel > div.carousel-item > div.card-content > h3 {
 div.carousel > div.carousel-item > div.card-content > * {
     font-size: 1.2rem;
     margin: 0.3em 0 0 0;
+}
+
+div.carousel > div.carousel-item > div.card-content > a {
+    background-color: var(--vibrant-color);
+    color: white;
+    border-radius: 2px;
+    padding: 0.5em;
+    font-size: 15px;
+    transition: ease-in-out 0.5s;
+}
+
+div.carousel > div.carousel-item > div.card-content > a:hover {
+    background-color: black;
 }
 
 #blank-carousel-item {
