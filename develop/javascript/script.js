@@ -476,7 +476,7 @@ function displayCarousel(eventList) {
             let carouselImg = $("<div>").addClass("card-image").append($("<img>").attr("src", eventList[i].background));
             let carouselHeading = $("<h3>").addClass("carousel-title center-align").text(eventList[i].title);
             let carouselDate = $("<p>").text(eventList[i].date);
-            let carouselPrice = $("<a>").text(eventList[i].price).attr("href", eventList[i].url);
+            let carouselPrice = $("<a>").text(eventList[i].price).attr("href", eventList[i].url).attr("target", "_blank");
             let carouselText = $("<div>").addClass("card-content").append(carouselHeading).append(carouselDate).append(carouselPrice);
             carouselItem.append(carouselImg, carouselText);
             carouselEl.append(carouselItem);
