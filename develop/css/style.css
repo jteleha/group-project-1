@@ -1,5 +1,24 @@
+:root{
+    --vibrant-color: #6499E9;
+    --input-size: 32px;
+    --input-font-weight: 700;
+    --label-size: 20px;
+    --label-font-weight: 700;
+}
+
+body {
+    background-color: rgb(100, 100, 110);
+}
+
 /* Style header */
 /* id needed to override Materialize defaults */
+#background {
+    background-image: url("../../assets/Images/background-img.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+}
+
 header#header{
     margin: 0;
     padding: 1rem;
@@ -8,13 +27,17 @@ header#header{
 }
 
 #header h1{
-    margin: auto 0 auto 1em;
+    font-weight: 500;
+    margin: auto 0 auto 0.5em;
+    font-size: 80px;
+    color: white;
+    text-shadow: 0px 0px 4px white;
 }
 
 #header-search{
     display: flex;
     flex-direction: column;
-    margin: auto 3em auto auto;
+    margin: auto 5em auto auto;
     width: 35%;
     vertical-align: auto;
 }
@@ -25,36 +48,251 @@ header#header{
     color: white;
 }
 
-/* css for autocomplete on search */
-.ui-autocomplete {
-    color: blue;
+#search-symbol{
+    color: var(--vibrant-color);
+}
+
+/* css for autocomplete on letters the user has typed */
+.autocomplete-content li .highlight{
+    color: var(--vibrant-color)!important;
+}
+
+/* css for autocomplete on letters autocompleting what the user has typed */
+.dropdown-content li>a, .dropdown-content li>span {
+    color: black!important;
+}
+
+#main-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.event-card div .card-img {
+    width: 100%!important;
+    height: 100%!important;
 }
 
 /* Style sidebar */
 /* id needed to override Materialize defaults */
 div.sidebar#sidebar{
-    padding: 2rem;
-    height: 50em;
+    padding: 1rem 2rem 2rem 2rem;
+    height: 60em;
+}
+
+#sidebar-inputs{
+    margin-left: 1em;
+    width: 75%;
 }
 
 .filter {
-    border: solid 1px black;
+    border: solid 3px white;
     padding: 0.5em;
     margin: 0 0 1.5em 0;
 }
 
-#submit-btn {
-    margin: 3em auto 0 auto;
-    display: flex;
+/* text for event type label */
+#input-event label{
+    color: white;
+    font-size: var(--label-size);
+    font-weight: var(--label-font-weight);
 }
+
+/* label on focus */
+#input-event input[type=text]:focus + label {
+    font-size: 15px;
+}
+
+/* event input underline on focus */
+#input-event input[type=text]:focus {
+    border-bottom: 2px solid white;
+    box-shadow: 0 1px 0 0 #000;
+}
+
+/* text entered into the input */
+#input-event input {
+    margin-top: 1em;
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: var(--input-size);
+    font-weight: var(--input-font-weight);
+}
+
+/* for event type carrot */
+#input-event svg{
+    fill: white;
+}
+
+/* text for date label */
+#input-start-date label,
+#input-end-date label {
+    color: white;
+    font-size: var(--label-size);
+    font-weight: var(--label-font-weight);
+}
+
+/* text for date input */
+#input-start-date .datepicker,
+#input-end-date .datepicker {
+    margin-top: 0.5em;
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: var(--input-size);
+    font-weight: var(--input-font-weight);
+}
+
+/* for date that is selected */
+#input-start-date .datepicker-table td.is-selected,
+#input-end-date .datepicker-table td.is-selected {
+    background-color: var(--vibrant-color);
+}
+
+/* datepicker month and year on top of calendar */
+#input-start-date div.select-wrapper input.select-dropdown.dropdown-trigger,
+#input-end-date div.select-wrapper input.select-dropdown.dropdown-trigger {
+    color: var(--vibrant-color);
+    font-size: 18px;
+    border-bottom: 1px solid var(--vibrant-color);
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+/* For "cancel" button */
+#input-start-date .datepicker-cancel,
+#input-end-date .datepicker-cancel {
+    color: var(--vibrant-color);
+}
+
+/* For "okay" button */
+#input-start-date .datepicker-done,
+#input-end-date .datepicker-done {
+    color: var(--vibrant-color);
+}
+
+/* datepicker background  */
+div.datepicker-date-display{
+    background-color: var(--vibrant-color);
+}
+
+/* hover effect on hovering over a date */
+tr.datepicker-row td:hover{
+    background-color: var(--vibrant-color);
+}
+
+/* color for the current date on calendar */
+tr.datepicker-row td.is-today{
+    color: var(--vibrant-color);
+    font-size: 18px;
+}
+/* hover effect on current date so it can be visible */
+tr.datepicker-row td.is-today:hover{
+    color: black;
+}
+
+/* datepicker prev and next month arrows */
+div.datepicker-controls > button.month-next:active,
+div.datepicker-controls > button.month-prev:active {
+    background-color: var(--vibrant-color);
+}
+
+/* label for city and state input */
+#input-city label,
+#input-state label {
+    color: white;
+    font-size: var(--label-size);
+    font-weight: var(--label-font-weight);
+}
+
+/* label on focus */
+#input-city input[type=text]:focus + label,
+#input-state input[type=text]:focus + label {
+    font-size: 15px;
+}
+
+/* city and state input underline on focus */
+#input-city input[type=text]:focus,
+#input-state input[type=text]:focus {
+    border-bottom: 2px solid white;
+    box-shadow: 0 1px 0 0 #000;
+}
+
+/* text entered into the input */
+#input-city input,
+#input-state input {
+    margin-top: 0.5em;
+    border-bottom: 2px solid white;
+    color: white;
+    font-size: var(--input-size);
+    font-weight: var(--input-font-weight);
+}
+
+/* invalid color */
+#input-state input[type=text].invalid {
+    border-bottom: 2px solid red;
+    box-shadow: 0 1px 0 0 #000;
+}
+
+#input-state span.character-counter{
+    color: white;
+}
+
+/* lets the buttons be in the same row */
+#button-row{
+    display: flex;
+    flex-direction: row;
+    max-height: 100%;
+}
+
+/* css for search and clear button */
+#clear-input, #submit-btn {
+    color: white;
+    font-size: 16px;
+    background-color: var(--vibrant-color);
+    transition: ease-in-out 0.5s;
+}
+
+#clear-input:hover, #submit-btn:hover{
+    background-color: black;
+    border: 1px solid black;
+}
+
+/* error message */
+#error-msg {
+    color: red;
+    text-align: center;
+    margin: 0 auto 0.5em auto;
+}
+
+/* set the position of each button */
+#clear-input{
+    margin-left: 0;
+    margin-right: auto;
+}
+
+#submit-btn{
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 0 !important;
+}
+
 
 /* Style main area */
 .main-area {
     display: flex;
     flex-direction: column;
-    max-height: 50em;
+    max-height: 60em;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.event-card {
+    display: flex;
+    flex-direction: row;
+}
+
+div.card-image {
+    min-width: 35%;
+    height: 100%;
+    margin-left: 0;
 }
 
 /* Style event cards */
@@ -62,7 +300,7 @@ div.event-card,
 div.carousel-card {
     margin: 2rem 1rem;
     border-radius: 28px;
-    border: 3px solid grey;   
+    border: 4px solid grey;   
 }
 
 /* Allows the image to cover the entire card */
@@ -78,12 +316,16 @@ div.event-card > div.card-image > div.event-img {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center center;
-    border-radius: 25px 0 0 25px;
+    border-radius: 24px 0 0 24px;
 }
 
 /* CSS for the title of event */
 div.event-card > div.card-content {
     padding-top: 0;
+}
+
+.card-content {
+    width: 100%;
 }
 
 .details {
@@ -98,7 +340,7 @@ div.event-card > div.card-content {
     font-size: 20px;
 }
 
-.ticket-price{
+.ticket-price {
     display: flex;
     flex-direction: row;
     width: 50%;
@@ -109,28 +351,71 @@ div.event-card > div.card-content {
 .min-price {
     width: 100%;
     height: 100%;
-    border: 1px solid black;
+    border: 1px solid var(--vibrant-color);
+    background-color: var(--vibrant-color);
     border-radius: 10px;
     padding: 0.5rem;
-    color: black;
-    transition: 0.5s ease;
+    color: white;
+    transition: 0.5s ease-in-out;
 }
 
 .min-price:hover {
     background-color: black;
     color: white;
-    border: 1px solid white;
+    border: 1px solid black;
     border-radius: 10px;
 }
 
+/* Style previous and next buttons */
+#prev-page, #next-page {
+    padding: 1em;
+    width: 50%;
+    background-color: var(--vibrant-color);
+    color: white;
+    align-self: center;
+    margin: 0 0 2rem 0;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 2px;
+    border: 1px solid var(--vibrant-color);
+    transition: ease-in-out 0.5s;
+}
+
+#prev-page:hover, #next-page:hover, #clear-carousel:hover{
+    background-color: black;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
 /* Style footer */
+footer.row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 main.row, footer.row {
     margin: 0;
 }
 
 footer.row {
-    padding-bottom: 2rem;
+    padding-bottom: 10rem;
 }
+
+footer > h2 {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin: 2rem 0 0 0;
+    text-shadow: 0px 0px 4px white;
+}
+
+#clear-carousel {
+    background-color: var(--vibrant-color);
+    position: relative;
+    top: 43rem;
+}
+
 
 /* Style carousel cards */
 div.carousel {
@@ -140,18 +425,169 @@ div.carousel {
 div.carousel > div.carousel-item {
     height: 28rem;
     width: 21rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+div.carousel > div.carousel-item > div.card-image {
+    height: 19rem;
 }
 
 div.carousel > div.carousel-item > div.card-image > img {
     height: 19rem;
     width: 100%;
-    border-radius: 25px 25px 0 0;
+    border-radius: 24px 24px 0 0;
+}
+
+div.carousel > div.carousel-item > div.card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 div.carousel > div.carousel-item > div.card-content > a > h3 {
     font-size: 1.5rem;
+    margin: 0.5em 0 0 0;
 }
 
 #blank-carousel-item {
     height: 14rem;
+}
+
+/* Tablet screen */
+@media screen and (max-width: 768px)  {
+    #header h1{
+        font-size: 60px;
+    }
+
+    div.sidebar#sidebar{
+        padding-left: 0;
+    
+    }
+
+    #sidebar-inputs{
+        width: 100%;
+    }
+
+    #header-search{
+        margin-right: auto;
+    }
+}
+
+/* Mobile L */
+@media screen and (max-width: 600px){
+    header#header{
+        flex-direction: column;
+    }
+
+    #header h1{
+        text-align: center;
+    }
+
+    #header-search{
+        margin-top: 1.5em;
+        width: 75%;
+    }
+
+    #main-row{
+        flex-direction: column;
+    }
+
+    div.sidebar#sidebar{
+        width: 100%;
+    }
+
+    #error-msg{
+        font-size: 18px;
+    }
+
+    #main-info{
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        max-height: 40em;
+    }
+
+    .main-area > .event-card > div.card-image{
+        min-height: 15em;
+        max-height: 15em;
+        width: 100%;
+    }
+
+    div.event-img{
+        border-radius: 24px !important;
+    }
+
+    
+    div.event-card{
+        display: flex;
+        flex-direction: column;
+        min-width: 25rem;
+    }
+
+    .event-card > .card-content > h3{
+        max-height: 5rem;
+        min-height: 5rem;
+        font-size: 25px;
+        font-weight: 600;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+
+    div.description{
+        flex-direction: row;
+        font-size: 16px;
+        overflow: hidden;
+        max-height: 2rem;
+        min-height: 2rem;
+    }
+
+    p.event-type{
+        display: none;
+    }
+
+    .description > p{
+        width: 100%;
+    }
+
+    #prev-page, #next-page{
+        margin: 2rem 1em 2em auto !important;
+    }
+
+    footer > h2 {
+        font-size: 2em;
+        margin: 1.5em 0 0 0;
+    }
+}
+
+/* Mobile M */
+@media screen and (max-width: 376px){
+    div.event-card{
+        min-width: 22rem;
+    }
+
+    div.description{
+        max-height: 3.5rem;
+        min-height: 3.5rem;
+    }
+}
+
+/* Mobile S */
+@media screen and (max-width: 321px){
+
+    div.event-card{
+        min-width: 19rem;
+    }
+
+    .card-content h3{
+        font-size: 22px;
+        max-height: 4rem;
+        min-height: 4rem;
+    }
+
+    div.description{
+        font-size: 14px;
+    }
 }

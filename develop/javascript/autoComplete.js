@@ -250,9 +250,9 @@ $(document).ready(function(){
 
       limit : 5,
       onAutocomplete: function(){
-        console.log("worked");
         handleSearch();
-      }
+      },
+
 
     });
 });

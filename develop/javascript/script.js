@@ -1,9 +1,9 @@
 // variable for url
-var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
 
 // setting elements as variables
 var btn = $("#submit-btn");
-
+var mainArea = $("#main-info");
 var eventCard = $(".event-card");
 var eventImg = $(".event-img");
 var eventTitle = $(".event-title");
@@ -13,6 +13,7 @@ var eventVenue = $(".event-venue");
 var minPrice = $(".min-price");
 var carouselEl = $(".carousel");
 var errorMsg = $("#error-msg");
+var clearBtn = $("#clear-carousel");
 
 // Track whether the carousel is initialized
 let carouselIsInitialized = false;
@@ -26,16 +27,27 @@ let recentlyViewed = [];
 //var for current day date
 var today = dayjs().format("YYYY-MM-DD");
 
-
+// Page number of the event results
+var pageNumber = 1
 
 // Event listeners and function calls:
+// Submit listener
 btn.on("click", handleSubmit);
+// Search clear event listener
 $("#empty-search").on("click", emptySearch);
-$(minPrice).on('click', handleMinPriceClick);
+// Clear inputs
+$("#clear-input").on("click", emptyForm);
+// Clear carousel event listener
+clearBtn.on("click", handleClearCarousel);
+// Next and previous page event listeners
+$(document).on("click", "#prev-page", prevPageFunction)
+$(document).on("click", "#next-page", nextPageFunction)
 
+// Initialization function
 init();
 
-
+// variable for URL to update
+var currentUrl = url;
 
 // Function definitions:
 // Initialize the page
@@ -48,13 +60,17 @@ function init(){
 // Handle the event of the form being submitted
 function handleSubmit(event) {
 
+    pageNumber = 1
+
     if(event !== undefined){
         event.preventDefault();
     }
     
     // resets url so old inputs don't add onto the new one
-    var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
-    $(errorMsg).css("display", "none");
+    var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+    
+    // Clear old error message, if it exists
+    clearErrorMessage();
 
     // selects the values of the inputs
     var userEvent = $("#event-option").val();
@@ -75,6 +91,26 @@ function handleSubmit(event) {
             userEvent = "ncaa_football";
         };
 
+        if(userEvent === "Monster Trucks"){
+            userEvent = "monster_truck";
+        }
+
+        if(userEvent === "Auto Racing"){
+            userEvent = "auto_racing";
+        }
+
+        if(userEvent === "Music Festival"){
+            userEvent = "music_festival";
+        }
+
+        if(userEvent === "Broadway"){
+            userEvent = "broadway_tickets_national"
+        }
+
+        if(userEvent === "Horse Racing"){
+            userEvent = "horse_racing";
+        }
+
         url += `&taxonomies.name=${userEvent}`;
     
     };
@@ -83,15 +119,11 @@ function handleSubmit(event) {
     if (startDate !== "" && endDate !== ""){
         // error msg if user made the end date before the start date
         if(startDate > endDate){
-            errorMsg.text("Please Make Sure The End Date Is After The Start Date!");
-            $(errorMsg).css({"display": "block", "color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is After The Start Date!");
             return;
         }else if(startDate === endDate){
             // error msg if user made both dates the same day
-            errorMsg.text("Please Make Sure The End Date Is Atleast One Day After The Start Date!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is At Least One Day After The Start Date!");
             return;
         }
         url += `&datetime_local.gte=${startDate}&datetime_local.lte=${endDate}`;
@@ -104,9 +136,7 @@ function handleSubmit(event) {
     }else if (startDate === "" && endDate !== ""){
         //error msg if end date is before todays date
         if(endDate < today){
-            errorMsg.text("Please Make Sure The End Date Is After The Current Date!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The End Date Is After The Current Date!");
             return;
         }
         url += `&datetime_local.lte=${endDate}`
@@ -121,15 +151,31 @@ function handleSubmit(event) {
     if(stateName !== ""){
         // error mesg if user didn't enter the state abbr correct
         if(stateName.length !== 2){
-            errorMsg.text("Please Make Sure The State Abbreviation Is The Correct Length!");
-            $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto", "margin-top": "-1em", "font-size": "12px", "font-weight": "bold"});
-            $(btn).css("margin-top", "1em");
+            displayErrorMessage("Please Make Sure The State Abbreviation Is The Correct Length!");
             return;
+        } else if (!isValidStateAbbr(stateName)) {
+            displayErrorMessage("Please Input A Valid United States State Abbreviation!")
+            return
         }
         url += `&venue.state=${stateName}`;
     };
 
+    currentUrl = url;
+
     fetchEvents(url);
+}
+
+// Checks whether the given two-letter state abbreviation is valid
+function isValidStateAbbr(stateAbbr) {
+    stateAbbr = stateAbbr.toUpperCase();
+    // It seems that the ISO 3166 codes for all 50 states, DC, and the permanently-inhabited territories are allowed
+    let validAbbrList = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", 
+                        "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                        "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                        "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                        "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY",
+                        "DC", "AS", "GU", "MP", "PR", "VI"];
+    return validAbbrList.includes(stateAbbr);
 }
 
 //Empty search bar when X is clicked
@@ -137,8 +183,26 @@ function emptySearch(){
     $("#search").val("");
 }
 
+//Empty the form when clear button is clicked
+function emptyForm(){
+    var filters = $(".user-input")
+    console.log(filters)
+    for(var i = 0; i < filters.length; i++){
+        if(filters[i].val !== ""){
+            $(filters[i]).val("");
+        }
+        
+    }
+
+    // Has to be ore specific to clear the event type input
+    $("#input-event input").val("");
+}
+
 //Handle the search
 function handleSearch(event){
+    // Clear existing error message
+    clearErrorMessage();
+
     //Comes back different based on if they used auto complete or manuelly submitted
     if(event !== undefined){
         event.preventDefault()
@@ -149,18 +213,15 @@ function handleSearch(event){
         searchVal = searchVal.split(" ").join("-");
     }
     //resets url from previous searches
-    var url = "https://api.seatgeek.com/2/events?per_page=50&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
+    var url = "https://api.seatgeek.com/2/events?per_page=10&listing_count.gt=0&client_id=MzkwMDkzNjl8MTcwMjk1Mzk0My43ODAyNDM5";
 
     //applies the api argument
     url += `&performers.slug=${searchVal}`;
 
+
     //calls function to display events
-    fetchEvents(url).then(data => {
-        allEvents = data.events;
-        displayEvents(data);
-        displayCarousel(data);
-        getRecentlyViewedEvents();
-    });
+    fetchEvents(url);
+
 }
 
 // Fetch the events from the API and display
@@ -170,7 +231,12 @@ function fetchEvents(url) {
     .then(function(response){
         return response.json();
     })
-    .then(displayEvents);
+    .then(displayEvents)
+    .then(function () {
+        // Select the min-price class elements when created and add the event listener
+        minPrice = $(".min-price");
+        $(minPrice).on('click', handleMinPriceClick);
+    });
 }
 
 // Populate the event cards with event data
@@ -180,18 +246,63 @@ function displayEvents(data) {
 
     // error for if there isn't any events found
     if(allEvents.length === 0){
-        errorMsg.text("No results found");
-        $(errorMsg).css({"display": "block","color": "red", "text-align": "center", "margin": "0 auto"})
-        $(btn).css("margin-top", "1em")
+        displayErrorMessage("No results found");
         return;
     }
 
-    // each elements text will change for the appropriate event
-    for(var i = 0; i < eventTitle.length; i++){
-        
-        // Adds the text for each section
-        eventTitle[i].innerHTML = allEvents[i].short_title;
-        
+    $(mainArea).empty();
+
+    // Creates each card and applies all the info
+    for (var i = 0; i < allEvents.length; i++){
+        //Make the card
+        var eventCard = $("<div>");
+        eventCard.addClass("event-card card ");
+
+        $(mainArea).append(eventCard);
+
+        // div that contains the img
+        var imgHolder = $("<div>");
+        imgHolder.addClass("card-image");
+        $(eventCard).append(imgHolder);
+
+        // div that has the image as background
+        var img = $("<div>");
+        img.addClass("event-img");
+
+        // If the API returned an image, use that image
+        // Else, choose a default image based on event type
+        if (allEvents[i].performers[0].image) {
+            img.css({"background-image": "url('" + allEvents[i].performers[0].image + "')"});
+        } else {
+            img.css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
+        }
+        $(imgHolder).append(img);
+
+        // div containing the event info
+        var cardContent = $("<div>");
+        cardContent.addClass("card-content");
+        $(eventCard).append(cardContent);
+
+        // Event header
+        var eventHeader = $("<h3>");
+        eventHeader.addClass("event-title center-align");
+        eventHeader.text(allEvents[i].short_title);
+        $(cardContent).append(eventHeader);
+
+        // div containing all the details
+        var details = $("<div>");
+        details.addClass("details");
+        $(cardContent).append(details);
+
+        // div containing the type, date and venue
+        var description = $("<div>");
+        description.addClass("description");
+        $(details).append(description);
+
+        // event type
+        var type = $("<p>");
+        type.addClass("event-type");
+
         // Capitalite first letter of each word and remove the underscore between space
         var typeName =  allEvents[i].type;
 
@@ -203,33 +314,138 @@ function displayEvents(data) {
             }
             //joins the words together
             typeName = splitWords.join(' ');
-            eventType[i].innerHTML = typeName;
+            type.text(typeName);
 
         //if event name is three letters wrong like MLB, NBA, MLS then all letters are capital
         }else if(typeName.length === 3){
             typeName = typeName.toUpperCase()
-            eventType[i].innerHTML = typeName;
+            type.text(typeName);
         
         //Everything else only capitalizes the first letter of the first word                
         }else {
             typeName = typeName.charAt(0).toUpperCase() + typeName.slice(1);
-            eventType[i].innerHTML = typeName;
+            type.text(typeName);
         }
+        $(description).append(type);
 
-        // Gets the layout for the date and time through dayjs
-        var date = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
-        eventDate[i].innerHTML = date;
+        // Event date
+        var date = $("<p>");
+        date.addClass("event-date");
+        // Format date and time through dayjs
+        var formatDate = dayjs(allEvents[i].datetime_local).format("ddd, MMM D, h:mm A");
 
-        eventVenue[i].innerHTML = allEvents[i].venue.name;
+        date.text(formatDate);
+        $(description).append(date);
 
-        minPrice[i].innerHTML = "From: $" + allEvents[i].stats.lowest_sg_base_price;
-        $(minPrice[i]).attr("href", allEvents[i].url);
+        // Event venue
+        var venue = $("<p>");
+        venue.addClass("event-venue");
+        venue.text(allEvents[i].venue.name);
+        $(description).append(venue);
 
-        // Checks the event type and applies the photo that goes with that event
-        $(eventImg[i]).css({"background-image": "url('" + getImageLocation(allEvents[i].type ) + "')"});
-    }    
+        // div containing ticket price
+        var ticketPrice = $("<div>");
+        ticketPrice.addClass("ticket-price");
+        $(details).append(ticketPrice);
+
+        // anchor that contains the link and says the actual price
+        var minPrice = $("<a>");
+        minPrice.addClass("min-price");
+        minPrice.attr({"target": "_blank", "href": allEvents[i].url});
+        minPrice.text("From: $" + allEvents[i].stats.lowest_sg_base_price);
+        $(ticketPrice).append(minPrice);
+
+    }  
+
+    // Previous page button if page number is greater than one
+    if (pageNumber > 1) {
+        var prevPageBtn = $("<button>");
+        prevPageBtn.text("Previous Page")
+        prevPageBtn.attr({"id": "prev-page", "type": "button"});
+        $(mainArea).append(prevPageBtn);
+    }
+    
+    // Next page button if there is the max events displayed
+    if(data.meta.total > 10 && allEvents.length === 10){
+        var nextPageBtn = $("<button>");
+        nextPageBtn.text("Next Page")
+        nextPageBtn.attr({"id": "next-page", "type": "button"});
+        $(mainArea).append(nextPageBtn);
+    }
 
     return data;
+}
+
+// Handle the event in which the next page button is clicked
+function nextPageFunction(){
+    // Will add 1 based on which page number it already is
+    if(pageNumber === 1){
+        pageNumber += 1
+        currentUrl += `&page=${pageNumber}`;
+
+    // After next page is already selected it removes that ending from the string then readds it to the string with appropriate page number 
+    }else if(pageNumber >= 2){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-7);
+            pageNumber += 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+        
+    }else if(pageNumber >= 10){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-8);
+            pageNumber += 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+    }
+
+    url = currentUrl;
+    fetchEvents(url)
+}
+
+// Handle the event in which the previous page button is clicked
+function prevPageFunction() {
+    // If on page 2, remove the page query parameter
+    if (pageNumber === 2) {
+        pageNumber -= 1
+        currentUrl = currentUrl.slice(0,-7);
+
+    // Else, replace the page query parameter with the current page
+    }else if(pageNumber > 2){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-7);
+            pageNumber -= 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+        
+    }else if(pageNumber >= 10){
+        if(currentUrl.includes("&page=")){
+            currentUrl = currentUrl.slice(0,-8);
+            pageNumber -= 1
+            currentUrl += `&page=${pageNumber}`;
+        }
+    }
+
+    url = currentUrl;
+    fetchEvents(url)
+}    
+
+// Clears any existing error message
+function clearErrorMessage() {
+    // Hide the message
+    $(errorMsg).css("display", "none");
+    // Set the submit button's margin back to normal
+    $(btn).css("margin-top", "3em");
+}
+
+// Sets an error message
+function displayErrorMessage(errorString) {
+    // Set the error message's content
+    errorMsg.text(errorString);
+    // Display the error message
+    $(errorMsg).css({"display": "block"});
+    // Reduce the submit button's margin
+    $(btn).css("margin-top", "1em");
 }
 
 // Populate the carousel with event data
@@ -269,6 +485,15 @@ function displayCarousel(eventList) {
     // Initialize the carousel
     carouselEl.carousel({indicators: true});
     carouselIsInitialized = true;
+}
+
+// Handle the event in which the clear carousel button is clicked
+function handleClearCarousel() {
+    // Clear the recently viewed events locally and in storage
+    storeRecentlyViewedEvents([]);
+    recentlyViewed = [];
+    // Display the carousel without any recent events
+    displayCarousel([]);
 }
 
 // Get image location based on event type
