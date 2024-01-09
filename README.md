@@ -1,4 +1,4 @@
-# event-hunter
+# Event Hunter
 
 ## Description
 Our group was tasked with creating a real-world front-end application using the information we have learned in the first six weeks of our coding bootcamp. We created an interactive web app that can allow users to search through a database of events that are based on user preferences and storing those events. It allows the user to view various events in one place so that they do not have to navigate through multiple websites in order to find the event that they would like to attend. Along with the app displaying these events, it also displays the time and date of the event, the location of the event, and the lowest ticket price offered through SeatGeek. 
